@@ -1,4 +1,4 @@
-# Application de livraison de pizza
+# Application de livraison de pizza : Ben Schalom KAMGA 2433366
 
 # Contexte
 
@@ -14,4 +14,7 @@ Types de Croûtes : Classique, Mince, Épaisse
 Choix de Sauces : Tomate, Spaghetti, Alfredo
 Choix de Garnitures (maximum 4) : Pepperoni, Champignons, Oignons, Poivrons, Olives, Anchois, Bacon, Poulet, Maïs, Fromage, Piments forts
 
+-------------------------------------------------------------------------------------------------------------------------------------------
 # Module 1: Gestion des clients   #
+
+

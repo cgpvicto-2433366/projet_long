@@ -7,9 +7,9 @@
 
 DROP DATABASE IF EXISTS pizzeria_db;
 
-CREATE DATABASE pizzeria_db;
+CREATE DATABASE pizzaria_db;
 
-USE pizzeria_db;
+USE pizzaria_db;
 
 -- ============================================
 -- GROUPE 1 : Tables de référence: [types_piece_identification, zones,  croutes, sauces, garnitures, statuts, taxes ]
@@ -141,7 +141,7 @@ CREATE TABLE adresses(
     ville VARCHAR(50) NOT NULL,
     rue VARCHAR(50) NOT NULL,
     code_postal CHAR(7) NOT NULL,
-    instructions TEXT DEFAULT "Merci de votre service.",
+    instructions TEXT,
     client_id INT NOT NULL,
 
     FOREIGN KEY (client_id) REFERENCES clients(id),
@@ -164,7 +164,7 @@ CREATE TABLE commandes (
     prix DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     statut_id INT NOT NULL, 
     client_id INT NOT NULL,
-    livreur_id INT, --- au moment de la commande on a pas de livreur associé
+    livreur_id INT, -- au moment de la commande on a pas de livreur associé
     adresse_id  INT NOT NULL,
 
     FOREIGN KEY (statut_id) REFERENCES statuts(id),

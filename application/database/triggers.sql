@@ -5,7 +5,7 @@
 -- Description : Script des triggers
 -- ============================================
 
-USE pizzeria_db;
+USE pizzaria_db;
 
 DELIMITER $$
 

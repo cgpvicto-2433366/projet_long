@@ -52,5 +52,8 @@ PIZZARIA/
 # Sprint1: Fondations et Base de données avec Utilisateurs
     -- Objectif: BD fonctionnelle avec système d'authentification
 
+    * Etape1: Modelisation de la BD [diagramme de classe et d'entité]
+    * Etape2: Création des scripts
+
 
 

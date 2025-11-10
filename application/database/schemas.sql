@@ -189,6 +189,7 @@ CREATE TABLE commandes_taxes (
 CREATE TABLE commandes_en_attente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     commande_id INT NOT NULL,
+    date_ajout DATETIME,
 
     FOREIGN KEY (commande_id) REFERENCES commandes(id)
 );

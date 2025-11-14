@@ -20,15 +20,25 @@ production = False
 def accueil():                          
     return render_template('Accueil.html')  
 
+
+
 @app.route('/connexion', methods=['GET', 'POST'])
 def connexion():  
     form = ConnexionForm()
 
-    courriel = form.courriel.data
-    password = form.password.data
-    type_compte = form.type_compte.data
+    if form.validate_on_submit():
+        courriel = form.courriel.data
+        password = form.password.data
+        type_compte = form.type_compte.data
 
-    return render_template('connexion.html')
+    
+        flash('Connexion réussie!', 'success')
+        return redirect(url_for('accueil')) 
+    
+    return render_template('connexion.html', form=form)
+
+
+
 
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():

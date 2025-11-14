@@ -35,6 +35,10 @@
     width: 100%;
 }
 
+.margin-top-form-connexion{
+    margin-top: 15rem;
+}
+
 /* Sections du formulaire */
 .form-section {
     border: 2px solid #F0F0F0;
@@ -53,6 +57,10 @@
 /* Groupes de champs */
 .form-group {
     margin-bottom: 1.25rem;
+}
+
+.margin-right-form-connexion-fieldset{
+    margin-right: 2rem;
 }
 
 .form-group label {

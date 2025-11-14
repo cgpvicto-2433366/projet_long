@@ -22,7 +22,7 @@ def execute_query(query, params=None, fetch_one=False, fetch_all=False):
     """
     Exécuter une requête SQL avec gestion de transaction
     """
-    connection = get_db_connection()
+    connection = open_connection()
     if not connection:
         raise Exception("Impossible de se connecter à la base de données")
     

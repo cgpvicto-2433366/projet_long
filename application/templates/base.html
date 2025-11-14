@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Piz-la pizza{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block css_js %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <div id="logo-nom-salutation">
+            <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Piz-la pizza">
+            <div id="logo-salutation">  
+                <span id="nom-pizzaria">Piz-la pizza</span>
+                <span id="salutation">{% block salutation %} Bienvenu chez Piz-la pizza {% endblock %}</span>
+            </div>
+        </div>
+
+        <div class="boutons">
+            {% block nav_buttons %}
+                <!-- Les boutons seront définis dans chaque page -->
+            {% endblock %}
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mon Application</p>
+    </footer>
+</body>
+</html>

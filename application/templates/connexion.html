@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block css_js %}{% endblock %}
+
+{% block nav_buttons %}
+<a href="#" class="bouton">Inscription</a>
+<a href="#" class="bouton">Connexion</a>
+{% endblock %}
+
+{% block content %}
+<h2>🔐 PAGE DE CONNEXION</h2>
+
+<form method="POST">
+    <div>
+        <label>Nom d'utilisateur :</label>
+        <input type="text" name="username" required>
+    </div>
+    
+    <div>
+        <label>Mot de passe :</label>
+        <input type="password" name="password" required>
+    </div>
+    
+    <button type="submit">Se connecter</button>
+</form>
+{% endblock %}

@@ -1,20 +1,22 @@
-from flask import Flask
+from flask import Flask, render_template  
 from config import Config
 
-app = Flask(__name__)
+## Precise l,endroit des dossiers de templates et static
+app = Flask(__name__, template_folder='application/templates', static_folder='application/static') 
+
+
 app.config.from_object(Config)
 
-# Variable qui dit si oui ou non je suis en production afin de desactiver le mode débogage
 production = False
 
 @app.route('/')
-def home():
-    return "🍕 Pizzeria - Le serveur fonctionne!"
+def connexion():
+    return render_template('Accueil.html')  
 
 if __name__ == '__main__':
     print("🍕 Serveur démarré sur http://localhost:5000")
-
-    if(production):
-        app.run(debug=False)  # Desactivation du mode debogage
+    
+    if production:
+        app.run(debug=False)
     else:
-        app.run(debug=True)  # Activation du mode debogage
+        app.run(debug=True)

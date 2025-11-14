@@ -56,4 +56,20 @@ PIZZARIA/
     * Etape2: Création des scripts
 
 
+# Sprint2: Infrastructure python
+    -- Objectif: Configuration Backend
 
+    * Structure du projet
+    * config.py avec configuration
+    * .env avec credentials
+    * application/database.py avec connexion MySQL
+    * requirements.txt avec dépendance
+
+# Sprint3: Authentification (inscription/connexion/deconnexion)
+     -- Objectif: Permettre les operations d'authentification
+
+    * Accueil
+    * Inscripttion
+    * Connexion
+    * Deconnexion
+   

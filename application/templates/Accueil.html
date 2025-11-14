@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil Piz-la pizza{% endblock %}
+
+{% block css_js %}<link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css') }}">{% endblock %}
+
+{% block nav_buttons %}
+<a href="#" class="bouton">Inscription</a>
+<a href="#" class="bouton">Connexion</a>
+{% endblock %}
+
+{% block content %}
+
+    <div id="card1">
+        <div id="card1-text">
+            <h1>Savourez la Meilleure Pizza en Ville</h1>
+            <p>Commandez vos pizzas préférées directement et suivez votre livraison en temps réel</p>
+        </div>
+    </div>
+
+    <div id="card2">
+        <a href="#" class="bouton">Commencer maintenant</a>
+    </div>
+
+    <div id="card3">
+        <div id="card3-text">  
+            <h2>Nos spécialités</h2>
+            <p>Découvrez notre sélection de pizzas délicieuses préparées avec les meilleurs ingredients</p>
+        </div>
+    </div>
+
+    <div id="card4">
+        
+        <div class="presentation-pizza">
+            <div  id="pizza1">
+                <img class="image-pizza" src="{{ url_for('static', filename='images/pizz1.jpg') }}" alt="Pizza Margherita">
+            </div>
+            <div class="description-pizza">
+                <h3>Pizza Margherita</h3>
+                <p>Sauce tomate, mozzarella, basilic frais</p>
+            </div>
+            <div class="prix-pizza">
+                <p>15 $</p>
+            </div>
+        </div>
+
+        <div class="presentation-pizza">
+            <div  id="pizza2">
+                <img class="image-pizza" src="{{ url_for('static', filename='images/pizz2.jpg') }}" alt="Pizza Margherita">
+            </div>
+            <div class="description-pizza">
+                <h3>Pizza Margherita</h3>
+                <p>Sauce tomate, mozzarella, basilic frais</p>
+            </div>
+            <div class="prix-pizza">
+                <p>15 $</p>
+            </div>
+        </div>
+        
+        <div class="presentation-pizza">
+            <div  id="pizza1">
+                <img class="image-pizza" src="{{ url_for('static', filename='images/pizz3.jpg') }}" alt="Pizza Margherita">
+            </div>
+            <div class="description-pizza">
+                <h3>Pizza Margherita</h3>
+                <p>Sauce tomate, mozzarella, basilic frais</p>
+            </div>
+            <div class="prix-pizza">
+                <p>15 $</p>
+            </div>
+        </div>
+
+        <div class="presentation-pizza">
+            <div  id="pizza1">
+                <img class="image-pizza" src="{{ url_for('static', filename='images/pizz4.jpg') }}" alt="Pizza Margherita">
+            </div>
+            <div class="description-pizza">
+                <h3>Pizza Margherita</h3>
+                <p>Sauce tomate, mozzarella, basilic frais</p>
+            </div>
+            <div class="prix-pizza">
+                <p>15 $</p>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

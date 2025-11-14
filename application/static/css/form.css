@@ -1,0 +1,161 @@
+/* ============================================
+   Le code CSS a été partiellement généré avec l'aide 
+   de Claude IAntelligence artificielle.
+    - Prompt utilisé : 
+    "Crée un style CSS moderne et épuré pour un formulaire d'inscription 
+    avec des sections bien délimitées, des champs de saisie élégants, 
+    et une mise en page responsive."
+   ============================================ */
+
+
+
+
+/* ============================================
+   CONTENEUR DE FORMULAIRE
+   ============================================ */
+.form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #FF5722;
+    margin-bottom: 2rem;
+}
+
+/* ============================================
+   FORMULAIRE
+   ============================================ */
+.custom-form {
+    width: 100%;
+}
+
+/* Sections du formulaire */
+.form-section {
+    border: 2px solid #F0F0F0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-section legend {
+    font-weight: 600;
+    color: #212121;
+    padding: 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Groupes de champs */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #212121;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* Inputs */
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background-color: #FAFAFA;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #FF5722;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.1);
+}
+
+.form-input:hover {
+    border-color: #BDBDBD;
+}
+
+/* Ligne de 2 colonnes */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Messages d'erreur */
+.form-error {
+    color: #E53935;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.form-error span {
+    display: block;
+    margin-top: 0.25rem;
+}
+
+/* Input avec erreur */
+.form-input.error {
+    border-color: #E53935;
+    background-color: #FFEBEE;
+}
+
+/* ============================================
+   ACTIONS DU FORMULAIRE
+   ============================================ */
+.form-actions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.btn-large {
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+/* ============================================
+   FOOTER DU FORMULAIRE
+   ============================================ */
+.form-footer {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #E0E0E0;
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.form-footer a {
+    color: #FF5722;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .form-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

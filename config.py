@@ -9,3 +9,7 @@ class Config:
     DB_PASSWORD = os.getenv('DB_PASSWORD')
     DB_NAME = os.getenv('DB_NAME')
     DB_PORT = os.getenv('DB_PORT')
+
+
+# SECRET_KEY
+SECRET_KEY = 'pizzeria-secret-key-dev-2025'

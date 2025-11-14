@@ -72,4 +72,7 @@ PIZZARIA/
     * Inscripttion
     * Connexion
     * Deconnexion
+
+    -- creation du formulaire d'inscription [point d'entree des nouveaux utilisateurs]. C'est a ce niveau que l'utilisateur peut choisir son role [client ou livreur]
+
    

@@ -5,7 +5,7 @@
 {% block css_js %}<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">{% endblock %}
 
 {% block nav_buttons %}
-<a href="{{ url_for('inscription') }}" class="bouton">Inscription</a>
+<a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
 <a href="{{ url_for('accueil') }}" class="bouton">Accueil</a>
 {% endblock %}
 
@@ -54,6 +54,16 @@
                 {% endif %}
             </div>
         </fieldset>
+
+        <div class="form-actions">
+            {{ form.submit(class="bouton bouton-primary btn-large") }}
+        </div>
+
     </form>
+
+    <div class="form-footer">
+        <p>Vous n'avez pas encore de compte ? <a href="{{ url_for('auth.inscription') }}">Inscrivez-vous ici</a></p>
+    </div>
+
 </div>
 {% endblock %}

@@ -5,8 +5,8 @@
 {% block css_js %}<link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css') }}">{% endblock %}
 
 {% block nav_buttons %}
-<a href="{{ url_for('inscription') }}" class="bouton">Inscription</a>
-<a href="{{ url_for('connexion') }}" class="bouton">Connexion</a>
+<a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
+<a href="{{ url_for('auth.connexion') }}" class="bouton">Connexion</a>
 {% endblock %}
 
 {% block content %}

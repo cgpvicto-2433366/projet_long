@@ -17,7 +17,7 @@
 {% block css_js %}<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">{% endblock %}
 
 {% block nav_buttons %}
-<a href="{{ url_for('connexion') }}" class="bouton">Connexion</a>
+<a href="{{ url_for('auth.connexion') }}" class="bouton">Connexion</a>
 <a href="{{ url_for('accueil') }}" class="bouton">Accueil</a>
 {% endblock %}
 
@@ -193,36 +193,93 @@
             </div>
         </fieldset>
 
+              <!-- Section: Client (cachée par défaut)-->
+        <fieldset class="form-section" id="client-fields" style="display: none;">
+            <legend> Informations client</legend>
+            
+            <div class="form-group">
+                {{ form.ville.label }}
+                {{ form.ville(class="form-input") }}
+                {% if form.ville.errors %}
+                    <div class="form-error">
+                        {% for error in form.ville.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.rue.label }}
+                {{ form.rue(class="form-input") }}
+                {% if form.rue.errors %}
+                    <div class="form-error">
+                        {% for error in form.rue.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.codePostal.label }}
+                {{ form.codePostal(class="form-input") }}
+                {% if form.codePostal.errors %}
+                    <div class="form-error">
+                        {% for error in form.codePostal.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+
         <div class="form-actions">
             {{ form.submit(class="bouton bouton-primary btn-large") }}
         </div>
     </form>
     
     <div class="form-footer">
-        <p>Vous avez déjà un compte ? <a href="{{ url_for('connexion') }}">Connectez-vous ici</a></p>
+        <p>Vous avez déjà un compte ? <a href="{{ url_for('auth.connexion') }}">Connectez-vous ici</a></p>
     </div>
 </div>
 
-<!-- JAVASCRIPT pour afficher/masquer les champs livreur -->
+<!-- JAVASCRIPT pour afficher/masquer les champs livreur et client -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const typeCompte = document.getElementById('type_compte');
     const livreurFields = document.getElementById('livreur-fields');
-    
+    const clientFields = document.getElementById('client-fields');
+
     // Fonction pour afficher/masquer
     function toggleLivreurFields() {
         if (typeCompte.value === 'livreur') {
             livreurFields.style.display = 'block';
+            clientFields.style.display = 'none';
             // Rendre les champs obligatoires
             document.querySelector('[name="type_piece"]').required = true;
             document.querySelector('[name="numero_piece"]').required = true;
             document.querySelector('[name="date_expiration"]').required = true;
-        } else {
+
+            document.querySelector('[name="ville"]').required = false;
+            document.querySelector('[name="rue"]').required = false;
+            document.querySelector('[name="codePostal"]').required = false;
+
+        } else if (typeCompte.value === 'client') {
             livreurFields.style.display = 'none';
+            clientFields.style.display = 'block';
             // Rendre les champs optionnels
             document.querySelector('[name="type_piece"]').required = false;
             document.querySelector('[name="numero_piece"]').required = false;
             document.querySelector('[name="date_expiration"]').required = false;
+
+            document.querySelector('[name="ville"]').required = true;
+            document.querySelector('[name="rue"]').required = true;
+            document.querySelector('[name="codePostal"]').required = true;
+
+        } else {  // ✅ AJOUTER CE ELSE (aucun type sélectionné)
+            livreurFields.style.display = 'none';
+            clientFields.style.display = 'none';
         }
     }
     

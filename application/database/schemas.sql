@@ -144,7 +144,7 @@ CREATE TABLE adresses(
     instructions TEXT,
     client_id INT NOT NULL,
 
-    FOREIGN KEY (client_id) REFERENCES clients(id),
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
     UNIQUE(client_id, code_postal)
 );
 

@@ -77,12 +77,7 @@ class InscriptionForm(FlaskForm):
     # ============================================
     
     type_piece = SelectField('Type de pièce d\'identité',
-        choices=[
-            ('', '-- Choisir --'),
-            ('1', 'Permis de conduire'),
-            ('2', 'Carte d\'identité'),
-            ('3', 'Passeport')
-        ],
+        coerce=str,  # source: https://wtforms.readthedocs.io/en/3.0.x/fields/#wtforms.fields.SelectField 
         validators=[Optional()],
         render_kw={'class': 'form-input'}
     )
@@ -98,15 +93,28 @@ class InscriptionForm(FlaskForm):
     )
     
     zones = SelectMultipleField('Zones de livraison',
-        choices=[
-            ('1', 'Victoriaville'),
-            ('2', 'Trois-Rivières'),
-            ('3', 'Drummondville'),
-            ('4', 'Shawinigan'),
-            ('5', 'Bécancour')
-        ],
+        coerce=str, # source: https://wtforms.readthedocs.io/en/3.0.x/fields/#wtforms.fields.SelectField 
         validators=[Optional()],
         render_kw={'class': 'form-input', 'size': '5'}
     )
+
+      # ============================================
+    # CHAMPS CLIENT (optionnels par défaut)
+    # ============================================
     
+    ville= StringField('Ville de résidence',
+        validators=[Optional()],
+        render_kw={'placeholder': 'Votre ville', 'class': 'form-input'}
+    )
+    
+    rue= StringField('Numéro de la  rue',
+        validators=[Optional()],
+        render_kw={'placeholder': 'Votre ville', 'class': 'form-input'}
+    )
+    
+    codePostal = StringField('Code postal',
+        validators=[Optional()],
+        render_kw={'placeholder': 'A1A 1A1', 'class': 'form-input'}
+    )
+        
     submit = SubmitField('S\'inscrire')

@@ -33,10 +33,10 @@ def connexion():
     return render_template('connexion.html', form=form)
 
 
-@bp.route('/logout')
-def logout():
+@bp.route('/deconnexion')
+def deconnexion():
     session.clear()
-    return redirect(url_for('auth.connexion'))
+    return redirect(url_for('accueil'))
 
 
 

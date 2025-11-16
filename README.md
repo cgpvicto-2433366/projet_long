@@ -23,24 +23,24 @@ Livreur : Voit les commandes prêtes, les prend en charge et marque comme "livr�
 # Structure du projet 
 PIZZARIA/
 ├── app.py                  # Point d’entrée principal de l’application Flask
-├── config.py               # Fichier de configuration global (utilise les variables .env)
+├── config.py               # Fichier de configuration global (utilise les variables .env, la cle secrete pour les variables de session)
 ├── .env                    # Variables sensibles (clé secrète, accès MySQL)
 ├── .env.example            # Exemple de fichier .env pour le partage sans secrets
 ├── requirements.txt        # Liste des dépendances Python
 ├── application/            # Dossier principal de l’application
 │   ├── __init__.py         # Initialise l’app Flask et enregistre les routes
-│   ├── routes/             # Fichiers de routes (endpoints Flask)
+│   ├── routes/             # Fichiers de routes (endpoints Flask[routes authentification, commandes etc])
 │   │   └── pizzas.py       # Routes liées aux pizzas
-│   ├── models/             # Modèles de données (si utilisés sans ORM)
-│   ├── forms/              # Formulaires Flask-WTF (si utilisés)
-│   ├── templates/          # Fichiers HTML (Jinja2)
-│   │   └── tests/          # Dossier prévu pour les templates de test
+│   ├── models/             # Fonction de traitement lié a chaque entité ex: utilisateur.py contient la méthode d'inscription, de connexion et de deconnexion
+│   ├── forms/              # Formulaires Flask-WTF [utilisation de la bibliotheque WTF pour creer des formulaires]
+│   ├── templates/          # Fichiers HTML 
+│   │         
 │   ├── static/             # Fichiers statiques (CSS, JS, images)
 │   │   ├── css/            # Feuilles de style
 │   │   └── images/         # Images du site
 │   ├── database/           # Scripts SQL pour la base de données
-│   │   └── schemas.sql     # Script de création des tables
-│   └── client.sql          # Script SQL spécifique aux clients
+│       └── schemas.sql     # Script SQL
+│        
 ├── diagramme/              # Diagrammes de conception (Draw.io)
 │   ├── db_classe.drawio    # Diagramme des classes
 │   ├── db_entite.drawio    # Diagramme des entités
@@ -73,6 +73,9 @@ PIZZARIA/
     * Connexion
     * Deconnexion
 
-    -- creation du formulaire d'inscription [point d'entree des nouveaux utilisateurs]. C'est a ce niveau que l'utilisateur peut choisir son role [client ou livreur]
+# Sprint4: Tableau de bord client (formulaire de creation des commandes de pizzas)
+    -- Objectif: permettre la composition d'une pizza, passer une commande, avoir un historique de commande passé
+
+
 
    

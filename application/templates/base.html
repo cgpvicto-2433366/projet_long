@@ -12,7 +12,11 @@
             <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Piz-la pizza">
             <div id="logo-salutation">  
                 <span id="nom-pizzaria">Piz-la pizza</span>
-                <span id="salutation">{% block salutation %} Bienvenu chez Piz-la pizza {% endblock %}</span>
+                {% if session.get('utilisateurId') %}
+                    <span id="salutation">Bonjour {{ session.get('prenom') }}!</span>
+                {% else %}
+                    <span id="salutation">Bienvenue!</span>
+                {% endif %}
             </div>
         </div>
 

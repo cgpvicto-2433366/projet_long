@@ -1,0 +1,293 @@
+<!--
+============================================
+   La logique pour afficher les informations du livreur
+    dans le formulaire d'inscription a été ajoutée en utilisant
+    claude IA ainsi que le code javascript pour afficher/masquer
+    les champs en fonction du type de compte sélectionné.
+    - Prompt utilisé : 
+    "Crée un style CSS moderne et épuré pour un formulaire d'inscription 
+    avec des sections bien délimitées, des champs de saisie élégants, 
+    et une mise en page responsive."
+   ============================================ */
+--> 
+{% extends "base.html" %}
+
+{% block title %}Inscription - Piz-la pizza{% endblock %}
+
+{% block css_js %}<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">{% endblock %}
+
+{% block nav_buttons %}
+<a href="{{ url_for('auth.connexion') }}" class="bouton">Connexion</a>
+<a href="{{ url_for('accueil') }}" class="bouton">Accueil</a>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>📝 Inscription</h2>
+    
+    <form method="POST" novalidate class="custom-form">
+        {{ form.hidden_tag() }}
+        
+        <fieldset class="form-section">
+            <legend>🔐 Informations de connexion</legend>
+            
+            <div class="form-group">
+                {{ form.nom_utilisateur.label }}
+                {{ form.nom_utilisateur(class="form-input") }}
+                {% if form.nom_utilisateur.errors %}
+                    <div class="form-error">
+                        {% for error in form.nom_utilisateur.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-input") }}
+                {% if form.password.errors %}
+                    <div class="form-error">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password(class="form-input") }}
+                {% if form.confirm_password.errors %}
+                    <div class="form-error">
+                        {% for error in form.confirm_password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+        
+        <fieldset class="form-section">
+            <legend>👤 Informations personnelles</legend>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form.nom.label }}
+                    {{ form.nom(class="form-input") }}
+                    {% if form.nom.errors %}
+                        <div class="form-error">
+                            {% for error in form.nom.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.prenom.label }}
+                    {{ form.prenom(class="form-input") }}
+                    {% if form.prenom.errors %}
+                        <div class="form-error">
+                            {% for error in form.prenom.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{ form.telephone.label }}
+                {{ form.telephone(class="form-input") }}
+                {% if form.telephone.errors %}
+                    <div class="form-error">
+                        {% for error in form.telephone.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.courriel.label }}
+                {{ form.courriel(class="form-input") }}
+                {% if form.courriel.errors %}
+                    <div class="form-error">
+                        {% for error in form.courriel.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+        
+        <fieldset class="form-section">
+            <legend>📋 Type de compte</legend>
+            
+            <div class="form-group">
+                {{ form.type_compte.label }}
+                {{ form.type_compte(class="form-input") }}
+                {% if form.type_compte.errors %}
+                    <div class="form-error">
+                        {% for error in form.type_compte.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+        
+
+      <!-- Section: LIVREUR (cachée par défaut) ajoute grace a claude IA -->
+        <fieldset class="form-section" id="livreur-fields" style="display: none;">
+            <legend>🚗 Informations livreur</legend>
+            
+            <div class="form-group">
+                {{ form.type_piece.label }}
+                {{ form.type_piece(class="form-input") }}
+                {% if form.type_piece.errors %}
+                    <div class="form-error">
+                        {% for error in form.type_piece.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.numero_piece.label }}
+                {{ form.numero_piece(class="form-input") }}
+                {% if form.numero_piece.errors %}
+                    <div class="form-error">
+                        {% for error in form.numero_piece.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.date_expiration.label }}
+                {{ form.date_expiration(class="form-input") }}
+                {% if form.date_expiration.errors %}
+                    <div class="form-error">
+                        {% for error in form.date_expiration.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.zones.label }}
+                <small>Maintenez Ctrl pour sélectionner plusieurs zones</small>
+                {{ form.zones(class="form-input") }}
+                {% if form.zones.errors %}
+                    <div class="form-error">
+                        {% for error in form.zones.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+
+              <!-- Section: Client (cachée par défaut)-->
+        <fieldset class="form-section" id="client-fields" style="display: none;">
+            <legend> Informations client</legend>
+            
+            <div class="form-group">
+                {{ form.ville.label }}
+                {{ form.ville(class="form-input") }}
+                {% if form.ville.errors %}
+                    <div class="form-error">
+                        {% for error in form.ville.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.rue.label }}
+                {{ form.rue(class="form-input") }}
+                {% if form.rue.errors %}
+                    <div class="form-error">
+                        {% for error in form.rue.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.codePostal.label }}
+                {{ form.codePostal(class="form-input") }}
+                {% if form.codePostal.errors %}
+                    <div class="form-error">
+                        {% for error in form.codePostal.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+
+        <div class="form-actions">
+            {{ form.submit(class="bouton bouton-primary btn-large") }}
+        </div>
+    </form>
+    
+    <div class="form-footer">
+        <p>Vous avez déjà un compte ? <a href="{{ url_for('auth.connexion') }}">Connectez-vous ici</a></p>
+    </div>
+</div>
+
+<!-- JAVASCRIPT pour afficher/masquer les champs livreur et client -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const typeCompte = document.getElementById('type_compte');
+    const livreurFields = document.getElementById('livreur-fields');
+    const clientFields = document.getElementById('client-fields');
+
+    // Fonction pour afficher/masquer
+    function toggleLivreurFields() {
+        if (typeCompte.value === 'livreur') {
+            livreurFields.style.display = 'block';
+            clientFields.style.display = 'none';
+            // Rendre les champs obligatoires
+            document.querySelector('[name="type_piece"]').required = true;
+            document.querySelector('[name="numero_piece"]').required = true;
+            document.querySelector('[name="date_expiration"]').required = true;
+
+            document.querySelector('[name="ville"]').required = false;
+            document.querySelector('[name="rue"]').required = false;
+            document.querySelector('[name="codePostal"]').required = false;
+
+        } else if (typeCompte.value === 'client') {
+            livreurFields.style.display = 'none';
+            clientFields.style.display = 'block';
+            // Rendre les champs optionnels
+            document.querySelector('[name="type_piece"]').required = false;
+            document.querySelector('[name="numero_piece"]').required = false;
+            document.querySelector('[name="date_expiration"]').required = false;
+
+            document.querySelector('[name="ville"]').required = true;
+            document.querySelector('[name="rue"]').required = true;
+            document.querySelector('[name="codePostal"]').required = true;
+
+        } else {  // ✅ AJOUTER CE ELSE (aucun type sélectionné)
+            livreurFields.style.display = 'none';
+            clientFields.style.display = 'none';
+        }
+    }
+    
+    // Écouter les changements
+    typeCompte.addEventListener('change', toggleLivreurFields);
+    
+    // Vérifier au chargement (en cas d'erreur de formulaire)
+    toggleLivreurFields();
+});
+</script>
+{% endblock %}

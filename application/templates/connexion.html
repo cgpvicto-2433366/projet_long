@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block css_js %}<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">{% endblock %}
+
+{% block nav_buttons %}
+<a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
+<a href="{{ url_for('accueil') }}" class="bouton">Accueil</a>
+{% endblock %}
+
+{% block content %}
+<div class="form-container margin-top-form-connexion">
+    <h2>📝 Connexion</h2>
+    
+    <form method="POST" novalidate class="custom-form">
+        {{ form.hidden_tag() }}
+        
+        <fieldset class="form-section">
+            <legend>🔐 Informations de connexion</legend>
+            <div class="form-group margin-right-form-connexion-fieldset">
+                {{ form.courriel.label }}
+                {{ form.courriel(class="form-input") }}
+                {% if form.courriel.errors %}
+                    <div class="form-error">
+                        {% for error in form.courriel.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+                 
+            <div class="form-group margin-right-form-connexion-fieldset">
+                {{ form.type_compte.label }}
+                {{ form.type_compte(class="form-input") }}
+                {% if form.type_compte.errors %}
+                    <div class="form-error">
+                        {% for error in form.type_compte.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group margin-right-form-connexion-fieldset">
+                {{ form.password.label }}
+                {{ form.password(class="form-input") }}
+                {% if form.password.errors %}
+                    <div class="form-error">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+
+        <div class="form-actions">
+            {{ form.submit(class="bouton bouton-primary btn-large") }}
+        </div>
+
+    </form>
+
+    <div class="form-footer">
+        <p>Vous n'avez pas encore de compte ? <a href="{{ url_for('auth.inscription') }}">Inscrivez-vous ici</a></p>
+    </div>
+
+</div>
+{% endblock %}

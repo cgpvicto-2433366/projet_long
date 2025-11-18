@@ -1,0 +1,467 @@
+
+<!--J'ai utilié claude IA pour representer les options dans les cartes-->
+
+
+{% extends "base.html" %}
+
+{% block title %}Commander{% endblock %}
+
+{% block css_js %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/commander.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/commandeConfirmer.css') }}">
+{% endblock %}
+
+{% block entete %}   
+    <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Piz-la pizza">
+    <div id="logo-salutation">  
+        <span id="nom-pizzaria">Créer votre pizza</span>
+        <span id="salutation">Personnalisez chaque détail de votre pizza</span>
+    </div>
+{% endblock %}
+
+{% block nav_buttons %}
+    <a href="{{ url_for('accueil')}}" class="bouton">Retour</a>
+    <a href="{{ url_for('pizza.historique') }}" class="bouton">Historique</a>
+{% endblock %}
+
+{% block content %}
+
+<section id="validerCommande">
+    <!-- section de confirmation -->
+
+<div id="modal-confirmation" class="modal-overlay" style="display: none;">
+    <div class="modal-carte">
+        <!-- En-tête -->
+        <div class="modal-entete">
+            <h2>📋 Confirmation de commande</h2>
+            <button type="button" class="btn-fermer" onclick="fermerModal()">×</button>
+        </div>
+        
+        <!-- Corps du modal -->
+        <form method="POST" action="{{ url_for('commande.validerPizza') }}">
+            {{ form.hidden_tag() }}
+            
+            <!-- SECTION 1: RÉSUMÉ FINANCIER -->
+            <div class="modal-section">
+                <h3>Résumé de la commande</h3>
+                
+                <div class="ligne-info">
+                    <span class="label">Nombre de pizzas:</span>
+                    <span class="valeur" id="nb-pizzas">3</span>
+                </div>
+                
+                <div class="ligne-info">
+                    <span class="label">Sous-total:</span>
+                    <span class="valeur" id="sous-total">45.99$</span>
+                </div>
+                
+                <div class="ligne-info">
+                    <span class="label">TPS (5%):</span>
+                    <span class="valeur" id="montant-tps">2.30$</span>
+                </div>
+                
+                <div class="ligne-info">
+                    <span class="label">TVQ (9.975%):</span>
+                    <span class="valeur" id="montant-tvq">4.59$</span>
+                </div>
+                
+                <div class="ligne-info ligne-total">
+                    <span class="label">Total à payer:</span>
+                    <span class="valeur prix-final" id="total-final"></span>
+                </div>
+            </div>
+            
+           <!-- SECTION 2: ADRESSE DE LIVRAISON -->
+            <div class="modal-section">
+                <h3>Adresse de livraison</h3>
+                
+                {% if adresses and adresses|length > 0 %}
+                    <div class="liste-adresses">
+                        {% for adresse in adresses %}
+                            <label class="carte-adresse">
+                                <input type="radio" name="adresse_id" value="{{ adresse.id }}" 
+                                    {% if loop.first %}required{% endif %}>
+                                <div class="contenu-adresse">
+                                    <div class="adresse-principale">
+                                        {{ adresse.rue }}
+                                    </div>
+                                    <div class="adresse-details">
+                                        {{ adresse.ville }}, QC {{ adresse.code_postal }}
+                                    </div>
+                                </div>
+                                <div class="check-adresse">✓</div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="message-info">Vous n'avez pas encore d'adresse enregistrée.</p>
+                {% endif %}
+                
+                <!-- Bouton pour nouvelle adresse -->
+                <button type="button" class="btn-ajouter-adresse" onclick="afficherNouvelleAdresse()">
+                    + Ajouter une nouvelle adresse
+                </button>
+            </div>
+            
+            <!-- SECTION 3: NOUVELLE ADRESSE (cachée par défaut) -->
+            <div id="nouvelle-adresse" class="modal-section" style="display: none;">
+                <h3>Nouvelle adresse</h3>
+                
+                <div class="groupe-champ">
+                    <label class="etiquette-champ">Rue *</label>
+                    <input type="text" name="rue" class="champ-saisie" placeholder="Rue Principale">
+                </div>
+                
+                <div class="groupe-champ">
+                    <label class="etiquette-champ">Ville *</label>
+                    <input type="text" name="ville" class="champ-saisie" placeholder="Victoriaville">
+                </div>
+                
+                <div class="groupe-champ">
+                    <label class="etiquette-champ">Code postal *</label>
+                    <input type="text" name="code_postal" class="champ-saisie" placeholder="G6P 1A1" maxlength="7">
+                </div>
+            </div>
+            
+            <!-- SECTION 4: INSTRUCTIONS -->
+            <div class="modal-section">
+                <h3>Instructions de livraison (optionnel)</h3>
+                <textarea name="instructions" class="zone-texte" rows="3" 
+                          placeholder="Ex: Sonner 2 fois, laisser à la porte..."></textarea>
+            </div>
+            
+            <!-- BOUTONS D'ACTION -->
+            <div class="modal-pied">
+                <button type="button" class="bouton bouton-annuler" onclick="fermerModal()">
+                    Annuler
+                </button>
+                <button type="submit" class="bouton bouton-confirmer">
+                    Confirmer la commande
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</section>
+
+
+
+
+<section id="container">
+    <section id="commande-section">
+        <form method="POST" id="pizza-form">
+            {{ form.hidden_tag() }} <!--protection CSRF concept appris dans le cours de dev web2 -->
+            
+            <div class="section-card">
+                <h2>{{ form.taille.label.text }}</h2>
+                <p class="subtitle">Choisissez la taille et le nombre de portions</p>
+                
+                <div class="options-grid taille-grid">
+                    {% for subfield in form.taille %}
+                        <label class="option-card">
+                            {{ subfield }}
+                            <div class="card-content">
+                                <div class="option-title">
+                                    {{ subfield.label.text.split('-')[0].strip() }}
+                                </div>
+                                <div class="option-price">{{ subfield.label.text.split('-')[1].strip() if '-' in subfield.label.text else '' }}</div>
+                                <div class="option-info">
+                                    {% if loop.index == 1 %}1-2 portions{% elif loop.index == 2 %}2-3 portions{% else %}3-4 portions{% endif %}
+                                </div>
+                                <div class="checkmark">✓</div>
+                            </div>
+                        </label>
+                    {% endfor %}
+                </div>
+                {% if form.taille.errors %}
+                    <div class="form-error">
+                        {% for error in form.taille.errors %}<span>{{ error }}</span>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="section-card">
+                <h2>{{ form.croute.label.text }}</h2>
+                <p class="subtitle">Sélectionnez votre croûte préférée</p>
+                
+                <div class="options-grid croute-grid">
+                    {% for subfield in form.croute %}
+                        <label class="option-card">
+                            {{ subfield }}
+                            <div class="card-content">
+                                <div class="option-title">{{ subfield.label.text.split('-')[0].strip() }}</div>
+                                <div class="option-price-small">{{ subfield.label.text.split('-')[1].strip() if '-' in subfield.label.text else '' }}</div>
+                            </div>
+                        </label>
+                    {% endfor %}
+                </div>
+                {% if form.croute.errors %}
+                    <div class="form-error">
+                        {% for error in form.croute.errors %}<span>{{ error }}</span>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- SAUCE -->
+            <div class="section-card">
+                <h2>{{ form.sauce.label.text }}</h2>
+                <p class="subtitle">Choisissez votre sauce</p>
+                
+                <div class="options-grid sauce-grid">
+                    {% for subfield in form.sauce %}
+                        <label class="option-card">
+                            {{ subfield }}
+                            <div class="card-content">
+                                <div class="option-title">{{ subfield.label.text.split('-')[0].strip() }}</div>
+                                <div class="option-price-small">{{ subfield.label.text.split('-')[1].strip() if '-' in subfield.label.text else '' }}</div>
+                            </div>
+                        </label>
+                    {% endfor %}
+                </div>
+                {% if form.sauce.errors %}
+                    <div class="form-error">
+                        {% for error in form.sauce.errors %}<span>{{ error }}</span>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- GARNITURES -->
+            <div class="section-card">
+                <h2>{{ form.garnitures.label.text }}</h2>
+                <p class="subtitle"> garniture - Maximum 4</p>
+                
+                <div class="options-grid garnitures-grid">
+                    {% for subfield in form.garnitures %}
+                    <label class="garniture-card">
+                        {{ subfield }}
+                        <div class="card-content">
+                            {{ subfield.label.text }}
+                        </div>
+                    </label>
+                    {% endfor %}
+                </div>
+                <small id="garniture-count"></small>
+                {% if form.garnitures.errors %}
+                    <div class="form-error">
+                        {% for error in form.garnitures.errors %}<span>{{ error }}</span>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- BOUTON SUBMIT -->
+            <div class="form-actions">
+                {{ form.submit(class="bouton bouton-primary btn-large") }}
+            </div>
+        </form>
+    </section>
+
+    
+    <!-- SECTION DROITE - RÉSUMÉ -->
+    <section id="order-summary">
+        <div class="summary-sticky">
+            <h2>📋 Résumé de la commande</h2>
+            
+            <div id="summary-details">
+                {% if panier and panier|length > 0 %}
+                    {% for pizza in panier %}
+                        <div class="pizza-item">
+                            <div class="pizza-info">
+                                <h4>Pizza #{{ loop.index }}</h4>
+                                <p class="pizza-details">
+                                    {{ pizza.garnitures|length }} garniture(s)
+                                </p>
+                            </div>
+                            <div class="pizza-prix">{{ "%.2f"|format(pizza.prix) }}$</div>
+                            <form method="POST" action="{{ url_for('pizza.supprimerPizza', index=loop.index0) }}" style="display:inline;">
+                                <button type="submit" class="btn-supprimer">×</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="prix-section">
+                        <div class="prix-ligne">
+                            <span>Sous-total:</span>
+                            <span>{{ "%.2f"|format(panier|sum(attribute='prix')) }}$</span>
+                        </div>
+                        <div class="prix-ligne">
+                            <span>TPS (5%):</span>
+                            <span>{{ "%.2f"|format(panier|sum(attribute='prix') * 0.05) }}$</span>
+                        </div>
+                        <div class="prix-ligne">
+                            <span>TVQ (9.975%):</span>
+                            <span>{{ "%.2f"|format(panier|sum(attribute='prix') * 0.09975) }}$</span>
+                        </div>
+                        <div class="prix-ligne total">
+                            <span>Total:</span>
+                            <span>{{ "%.2f"|format(panier|sum(attribute='prix') * 1.14975) }}$</span>
+                        </div>
+                    </div>
+                    
+                     <form method="POST" action="{{ url_for('pizza.viderPanier') }}">
+                        <button type="submit" class="bouton bouton-secondary btn-small">Vider le panier</button>
+                    </form>
+                    <button id="checkout-button" class="bouton bouton-primary btn-large" onclick="ouvrirModal()">
+                        Passer la commande
+                    </button>
+                {% else %}
+                    <p class="empty-message">Aucune pizza ajoutée pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</section>
+
+<script id="panier-data" type="application/json">
+    {{ panier | tojson }}
+</script>
+
+
+<script>
+/* ============================================
+   JavaScript simplifié
+   Source: Claude AI (Anthropic)
+   ============================================ */
+
+document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.garniture-card input[type="checkbox"]');
+    const count = document.getElementById('garniture-count');
+
+    // Compter les garnitures sélectionnées et limiter à 4
+    function updateCount() {
+        const checkedBoxes = document.querySelectorAll('.garniture-card input[type="checkbox"]:checked');
+        count.textContent = `${checkedBoxes.length} garniture(s) sélectionnée(s)`;
+    }
+
+    // Écouter les changements de checkbox
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', updateCount);
+        console.log("test"); // Debug
+    });
+
+    // ✅ Activer les cards RADIO au clic
+    document.querySelectorAll('.option-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (e.target.type === 'radio') return;
+            const radio = this.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+                radio.dispatchEvent(new Event('change'));
+            }
+        });
+    });
+
+    // Initialiser le compteur au chargement
+    updateCount();
+});
+
+
+
+
+    /* ============================================
+    Gestion du modal de confirmation
+    Source: Claude AI (Anthropic)
+    ============================================ */
+
+    // Ouvrir le modal avec les données
+    function ouvrirModal() {
+        // ✅ RÉCUPÉRER LE PANIER DEPUIS JINJA
+        let commandePanier;
+
+        try {
+            commandePanier = JSON.parse(document.getElementById("panier-data").textContent || "[]");
+        } catch(e) {
+            console.error('Erreur panier:', e);
+            commandePanier = [];
+        }
+
+        // Vérifier que le panier n'est pas vide
+        if (!commandePanier || commandePanier.length === 0) {
+            alert('Votre panier est vide!');
+            return false;
+        }
+        
+        // ✅ CALCULER LES TOTAUX
+        const sousTotal = commandePanier.reduce((sum, p) => sum + parseFloat(p.prix), 0);
+        
+        // ✅ RÉCUPÉRER LES TAXES DEPUIS JINJA
+        const taxes = [
+            { nom: "TPS", taux: 5.0 },       
+            { nom: "TVQ", taux: 9.975 }      
+        ];
+
+        let totalTaxes = 0;
+        let htmlTaxes = '';
+        
+        taxes.forEach(taxe => {
+            const montant = sousTotal * (taxe.taux / 100);
+            totalTaxes += montant;
+            htmlTaxes += `
+                <div class="ligne-info">
+                    <span class="label">${taxe.nom} (${taxe.taux.toFixed(3)}%):</span>
+                    <span class="valeur">${montant.toFixed(2)}$</span>
+                </div>
+            `;
+        });
+        
+        const total = sousTotal + totalTaxes;
+
+        // ✅ REMPLIR LE MODAL AVEC LES DONNÉES
+        document.getElementById('nb-pizzas').textContent = commandePanier.length;
+        document.getElementById('sous-total').textContent = sousTotal.toFixed(2) + '$';
+        document.getElementById('montant-tps').textContent = (sousTotal * 0.05).toFixed(2) + '$';
+        document.getElementById('montant-tvq').textContent = (sousTotal * 0.09975).toFixed(2) + '$';
+        document.getElementById('total-final').textContent = total.toFixed(2) + '$';
+
+        // ✅ AFFICHER LE MODAL
+        document.getElementById('modal-confirmation').style.display = 'flex';
+    }
+
+    // Fermer le modal
+    function fermerModal() {
+        document.getElementById('modal-confirmation').style.display = 'none';
+        const nouvelleAdresse = document.getElementById('nouvelle-adresse');
+        if (nouvelleAdresse) {
+            nouvelleAdresse.style.display = 'none';
+        }
+    }
+
+    // Afficher/cacher nouvelle adresse
+    function afficherNouvelleAdresse() {
+        const section = document.getElementById('nouvelle-adresse');
+        
+        if (section.style.display === 'none') {
+            section.style.display = 'block';
+            // Décocher les adresses existantes
+            document.querySelectorAll('input[name="adresse_id"]').forEach(radio => {
+                radio.checked = false;
+                radio.required = false;
+            });
+        } else {
+            section.style.display = 'none';
+        }
+    }
+
+    // ✅ FERMETURE AU CLIC SUR L'OVERLAY
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('modal-confirmation');
+        
+        if (modal) {
+            modal.addEventListener('click', function(event) {
+                if (event.target === this) {
+                    fermerModal();
+                }
+            });
+        }
+    });
+
+    // Fermer avec Échap
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const modal = document.getElementById('modal-confirmation');
+            if (modal && modal.style.display === 'flex') {
+                fermerModal();
+            }
+        }
+    });
+</script>
+{% endblock %}

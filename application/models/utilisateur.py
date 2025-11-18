@@ -22,14 +22,23 @@ def CreerUtilisateur(nomUtilisateur, password, telephone, courriel, typeCompte, 
     
     utilisateur_id = ExecuteQuery(query, params) # dans ce cas utilisateur ID contiendra l'ID du nouvel utilisateur
 
+    clientId= None
+    livreurId= None
+    
     if(typeCompte == 'client'):
-        CreerClient(utilisateur_id, nom, prenom, ville, rue, codePostal)
+        clientId= CreerClient(utilisateur_id, nom, prenom, ville, rue, codePostal)
     elif(typeCompte == 'livreur'):
-        creerLivreur(utilisateur_id, nom, prenom, typePiece, numeroPiece, dateExpiration, zones)
+        livreurId= creerLivreur(utilisateur_id, nom, prenom, typePiece, numeroPiece, dateExpiration, zones)
     else:
         raise ValueError("Type de compte inconnu.")
 
-    return utilisateur_id
+    resultat= {
+        "utilisateurId": utilisateur_id,
+        "clientId": clientId,
+        "livreurId": livreurId
+    }
+
+    return resultat
 
 
 

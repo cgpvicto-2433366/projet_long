@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil Piz-la pizza{% endblock %}
+
+{% block css_js %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/historique.css') }}">
+{% endblock %}
+
+{% block entete %}   
+    <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Piz-la pizza">
+    <div id="logo-salutation">  
+        <span id="nom-pizzaria">Piz-la pizza</span>
+        {% if session.get('utilisateurId') %}
+            <span id="salutation">Bonjour {{ session.get('prenom') }}!</span>
+        {% else %}
+            <span id="salutation">Bienvenue!</span>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block nav_buttons %}
+    {% if session.get('utilisateurId') %}
+        {% if session.get('role') == "client" %}
+            <a href="{{ url_for('pizza.creerPizza')}}" class="bouton">Commander</a>
+            <a href="{{ url_for('pizza.historique') }}" class="bouton">Historique</a>
+        {% elif session.get('role') == "livreur" %}
+            <a href="#" class="bouton">Livraisons</a>
+        {% elif session.get('role') == "admin" %}
+            <a href="#" class="bouton">Admin</a>
+        {% endif %}
+        <a href="{{ url_for('pizza.creerPizza')}}" class="bouton">Retour</a>
+    {% else %}
+        <a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
+        <a href="{{ url_for('auth.connexion')}}" class="bouton">Connexion</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<section id="historique-container">
+    {% if commandes and commandes|length > 0 %}
+        {% for commande in commandes %}
+        <div class="carte-commande">
+            <!-- En-tête de la commande -->
+            <div class="commande-entete">
+                <div class="info-gauche">
+                    <h3>Commande</h3>
+                    <span class="badge-statut">{{ commande.statut }}</span>
+                </div>
+                <div class="info-droite">
+                    <div class="date">
+                        <span class="label-date">Commandée le:</span>
+                        <span class="valeur-date">{{ commande.date_commande.strftime('%d/%m/%Y à %H:%M') }}</span>
+                    </div>
+                    {% if commande.date_livraison %}
+                    <div class="date">
+                        <span class="label-date">Livrée le:</span>
+                        <span class="valeur-date">{{ commande.date_livraison.strftime('%d/%m/%Y à %H:%M') }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Adresse de livraison -->
+            <div class="commande-adresse">
+                <span class="icone">📍</span>
+                <span>{{ commande.rue }}, {{ commande.ville }} {{ commande.code_postal }}</span>
+            </div>
+            
+            <!-- Liste des pizzas -->
+            <div class="liste-pizzas">
+                <h4>{{ commande.nombre_pizzas }} pizza(s)</h4>
+                
+              {% for pizza in commande.pizzas %}
+                <div class="carte-pizza">
+                    <div class="pizza-details">
+                        <div class="detail-ligne">
+                            <span class="icone-pizza">🍕</span>
+                            <span class="texte-bold">Pizza {{ loop.index }}</span>
+                        </div>
+                        
+                        <div class="detail-ligne">
+                            <span class="label-detail">Taille:</span>
+                            <span>{{ pizza.taille }}</span>
+                        </div>
+                        
+                        <div class="detail-ligne">
+                            <span class="label-detail">Croûte:</span>
+                            <span>{{ pizza.croute }}</span>
+                        </div>
+                        
+                        <div class="detail-ligne">
+                            <span class="label-detail">Sauce:</span>
+                            <span>{{ pizza.sauce }}</span>
+                        </div>
+                        
+                        {% if pizza.garnitures|length > 0 %}
+                        <div class="detail-ligne">
+                            <span class="label-detail">Garnitures:</span>
+                            <span>
+                                {% for garniture in pizza.garnitures %}
+                                    {{ garniture.nom }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                        {% else %}
+                        <div class="detail-ligne">
+                            <span class="label-detail">Garnitures:</span>
+                            <span class="texte-gris">Aucune</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            
+            <!-- Total de la commande -->
+            <div class="commande-total">
+                <span class="label-total">Total:</span>
+                <span class="montant-total">{{ "%.2f"|format(commande.prix) }}$</span>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="message-vide">
+            <div class="icone-vide">📦</div>
+            <h2>Aucune commande</h2>
+            <p>Vous n'avez pas encore passé de commande.</p>
+            <a href="{{ url_for('pizza.commander') }}" class="bouton bouton-primary">
+                Commander maintenant
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

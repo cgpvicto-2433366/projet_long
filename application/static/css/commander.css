@@ -1,0 +1,337 @@
+/* ============================================
+   Système de commande de pizzas
+   Source: Claude AI (Anthropic) - Nettoyé et optimisé
+   ============================================ */
+
+/* CONTAINER PRINCIPAL - 2 COLONNES */
+#container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 4rem auto 2rem;
+    padding: 0 2rem;
+}
+
+/* SECTION GAUCHE - COMMANDE */
+#commande-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#pizza-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* CARDS DE SECTION */
+.section-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.section-card h2 {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+/* GRIDS D'OPTIONS */
+.options-grid {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.taille-grid,
+.croute-grid,
+.sauce-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.garnitures-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+/* OPTION CARDS (RADIO) */
+.option-card {
+    position: relative;
+    cursor: pointer;
+    display: block;
+}
+
+.option-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.option-card .card-content {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: white;
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.option-card:hover .card-content {
+    border-color: #ff6b35;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+}
+
+.option-card input[type="radio"]:checked ~ .card-content {
+    border-color: #ff6b35;
+    background: #fff5f0;
+}
+
+/* TAILLE CARDS */
+.option-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.option-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ff6b35;
+    margin-bottom: 0.25rem;
+}
+
+.option-info {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* CROÛTE/SAUCE CARDS */
+.option-price-small {
+    font-size: 0.9rem;
+    color: #ff6b35;
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+/* CHECKMARK */
+.checkmark {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ff6b35;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.option-card input[type="radio"]:checked ~ .card-content .checkmark {
+    opacity: 1;
+}
+
+/* GARNITURES CARDS */
+.garniture-card {
+    cursor: pointer;
+    display: block;
+}
+
+.garniture-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.garniture-card .card-content {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.garniture-card:hover .card-content {
+    border-color: #ff6b35;
+}
+
+.garniture-card input[type="checkbox"]:checked ~ .card-content {
+    background: #fff5f0;
+    border-color: #ff6b35;
+    font-weight: 600;
+    color: #ff6b35;
+}
+
+#garniture-count {
+    display: block;
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* BOUTONS FORM */
+.form-actions {
+    margin-top: 1rem;
+}
+
+/* SECTION DROITE - RÉSUMÉ */
+#order-summary {
+    position: relative;
+}
+
+.summary-sticky {
+    position: sticky;
+    top: 2rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#order-summary h2 {
+    font-size: 1.5rem;
+    color: #ff6b35;
+    margin-bottom: 1.5rem;
+}
+
+#summary-details {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.empty-message {
+    text-align: center;
+    color: #9ca3af;
+    padding: 3rem 1rem;
+}
+
+/* PIZZA ITEMS */
+.pizza-item {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.pizza-item h4 {
+    font-size: 1rem;
+    color: #1a1a1a;
+    margin-bottom: 0.25rem;
+}
+
+.pizza-details {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.pizza-prix {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ff6b35;
+    margin-right: 2rem;
+}
+
+.btn-supprimer {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-supprimer:hover {
+    background: #dc2626;
+}
+
+/* PRIX SECTION */
+.prix-section {
+    border-top: 2px solid #e5e7eb;
+    padding-top: 1rem;
+    margin: 1.5rem 0;
+}
+
+.prix-ligne {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: #6b7280;
+}
+
+.prix-ligne.total {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid #e5e7eb;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.prix-ligne.total span:last-child {
+    color: #ff6b35;
+}
+
+/* BUTTONS */
+.bouton-secondary {
+    width: 100%;
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.bouton-secondary:hover {
+    background: #e5e7eb;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    #container {
+        grid-template-columns: 1fr;
+    }
+    
+    .summary-sticky {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .taille-grid,
+    .croute-grid,
+    .sauce-grid,
+    .garnitures-grid {
+        grid-template-columns: 1fr;
+    }
+}

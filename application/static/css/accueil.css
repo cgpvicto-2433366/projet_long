@@ -66,7 +66,8 @@
     margin-right: 20px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    gap: 30px;
+    justify-content: center;
 }
 
 .presentation-pizza{
@@ -76,13 +77,12 @@
     border-width: 1px;
     border-color: #E0E0E0;
     border-radius: 3px;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .image-pizza{
-    width: 500px;
-    height: 200px;
+    width: 270px;
+    height: 270px;
+    border-radius: 5px;
 }
 
 .prix-pizza{
@@ -90,4 +90,11 @@
     color: var(--primary-color);
     font-weight: bold;
     margin-top: 5px;
+}
+
+.prix-bouton{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
 }

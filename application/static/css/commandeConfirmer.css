@@ -1,0 +1,296 @@
+/* ============================================
+   MODAL DE CONFIRMATION
+   Code CSS pour la carte modale
+   Source: Claude AI (Anthropic)
+   ============================================ */
+
+/* Overlay (fond sombre) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* Carte modale */
+.modal-carte {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* En-tête */
+.modal-entete {
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff5f0;
+}
+
+.modal-entete h2 {
+    margin: 0;
+    color: #ff6b35;
+    font-size: 1.5rem;
+}
+
+.btn-fermer {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #6b7280;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.btn-fermer:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #1a1a1a;
+}
+
+/* Sections */
+.modal-section {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-section h3 {
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Lignes d'information */
+.ligne-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    color: #6b7280;
+}
+
+.ligne-info .label {
+    font-weight: 500;
+}
+
+.ligne-info .valeur {
+    font-weight: 600;
+}
+
+.ligne-info.ligne-total {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid #e5e7eb;
+    font-size: 1.25rem;
+    color: #1a1a1a;
+}
+
+.prix-final {
+    color: #ff6b35 !important;
+    font-size: 1.5rem !important;
+}
+
+/* Cartes d'adresse */
+.liste-adresses {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.carte-adresse {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s;
+}
+
+.carte-adresse:hover {
+    border-color: #ff6b35;
+    background: #fff5f0;
+}
+
+.carte-adresse input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.carte-adresse input[type="radio"]:checked ~ .contenu-adresse {
+    color: #ff6b35;
+}
+
+.carte-adresse input[type="radio"]:checked ~ .check-adresse {
+    opacity: 1;
+}
+
+.contenu-adresse {
+    padding-right: 2rem;
+}
+
+.adresse-principale {
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.25rem;
+}
+
+.adresse-details {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.check-adresse {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ff6b35;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Bouton ajouter adresse */
+.btn-ajouter-adresse {
+    background: none;
+    border: 2px dashed #e5e7eb;
+    color: #ff6b35;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.btn-ajouter-adresse:hover {
+    border-color: #ff6b35;
+    background: #fff5f0;
+}
+
+/* Champs de formulaire */
+.groupe-champ {
+    margin-bottom: 1rem;
+}
+
+.etiquette-champ {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.champ-saisie {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.champ-saisie:focus {
+    outline: none;
+    border-color: #ff6b35;
+}
+
+.zone-texte {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.3s;
+}
+
+.zone-texte:focus {
+    outline: none;
+    border-color: #ff6b35;
+}
+
+/* Pied du modal */
+.modal-pied {
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    background: #f9fafb;
+}
+
+.bouton {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.bouton-annuler {
+    background: #e5e7eb;
+    color: #6b7280;
+}
+
+.bouton-annuler:hover {
+    background: #d1d5db;
+}
+
+.bouton-confirmer {
+    background: #ff6b35;
+    color: white;
+}
+
+.bouton-confirmer:hover {
+    background: #e55a25;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-carte {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .modal-entete,
+    .modal-section,
+    .modal-pied {
+        padding: 1rem 1.5rem;
+    }
+    
+    .modal-pied {
+        flex-direction: column;
+    }
+    
+    .bouton {
+        width: 100%;
+    }
+}

@@ -9,15 +9,7 @@
 <body>
     <nav>
         <div id="logo-nom-salutation">
-            <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Piz-la pizza">
-            <div id="logo-salutation">  
-                <span id="nom-pizzaria">Piz-la pizza</span>
-                {% if session.get('utilisateurId') %}
-                    <span id="salutation">Bonjour {{ session.get('prenom') }}!</span>
-                {% else %}
-                    <span id="salutation">Bienvenue!</span>
-                {% endif %}
-            </div>
+            {% block entete %}{% endblock %}
         </div>
 
         <div class="boutons">

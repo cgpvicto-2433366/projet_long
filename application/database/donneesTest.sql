@@ -51,14 +51,14 @@ INSERT INTO clients (nom, prenom, points_fidelite, utilisateur_id) VALUES
 -- Adresses des clients
 -- ============================================
 
-INSERT INTO adresses (ville, rue, code_postal, instructions, client_id) VALUES
-('Victoriaville', '123 Rue Principale', 'G6P 1A1', 'Sonner 2 fois', 
+INSERT INTO adresses (ville, rue, code_postal, client_id) VALUES
+('Victoriaville', '123 Rue Principale', 'G6P 1A1', 
  (SELECT id FROM clients WHERE nom = 'Tremblay' AND prenom = 'Jean')),
  
-('Victoriaville', '456 Avenue des Érables', 'G6P 2B2', 'Appartement 5, 2e étage', 
+('Victoriaville', '456 Avenue des Érables', 'G6P 2B2',  
  (SELECT id FROM clients WHERE nom = 'Dubois' AND prenom = 'Marie')),
  
-('Trois-Rivières', '789 Boulevard des Forges', 'G8Z 3C3', 'Maison bleue', 
+('Trois-Rivières', '789 Boulevard des Forges', 'G8Z 3C3',
  (SELECT id FROM clients WHERE nom = 'Gagnon' AND prenom = 'Pierre'));
 
 -- ============================================

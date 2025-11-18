@@ -51,7 +51,7 @@ def inscription():
     if form.validate_on_submit():
 
         try:
-            utilisateurId=CreerUtilisateur(
+            resultat=CreerUtilisateur(
                 nomUtilisateur=form.nom_utilisateur.data,
                 password=form.password.data,
                 telephone=form.telephone.data,
@@ -72,11 +72,17 @@ def inscription():
             # avant utilsiateur de l'application, on utilisera directement 
             # l'ID du compte utilisateur dans les requetes`
             # ceci implique que je ferai des logique "OU" dans les routes
-            session['utilisateurId'] = utilisateurId
+            session['utilisateurId'] = resultat.utilisateurId
             session['nomutilisateur'] = form.nom_utilisateur.data
             session['role'] = form.type_compte.data
+            if resultat['clientId'] is not None:
+                session['roleId'] = resultat['clientId']
+            elif resultat['livreurId'] is not None:
+                session['roleId'] = resultat['livreurId']
+
             session['nom'] = form.nom.data
             session['prenom'] =form.prenom.data
+            
             flash('Inscription réussie', 'success')
             return redirect(url_for('accueil')) 
         

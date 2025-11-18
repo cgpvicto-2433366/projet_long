@@ -22,3 +22,23 @@ def CreerClient(idUtilisateur, nom, prenom, ville, rue, codePostal):
     ExecuteQuery(query, paramsAdresse)
 
     return clientId
+
+
+def recuperer_adresses_clients(idclient):
+    lesAdresse = []  
+
+    if idclient:
+        queryAdresse = " SELECT id, rue, ville, code_postal FROM adresses WHERE client_id = %s"
+        param = (idclient,)
+        lesAdresse = ExecuteQuery(queryAdresse, param, plusieursResultats=True)
+
+    return lesAdresse
+
+
+def creer_nouvelle_adresse(idClient, rue , ville , codePostal):
+    if idClient:
+        queryAdresse = " INSERT INTO adresses(rue, ville, code_postal, client_id) VALUES (%s, %s, %s, %s)"
+        param = (rue, ville, codePostal, idClient)
+        adresseId = ExecuteQuery(queryAdresse, param)
+        
+    return adresseId

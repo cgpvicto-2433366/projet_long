@@ -27,36 +27,38 @@ CREATE TABLE zones (
     nom VARCHAR(255) NOT NULL UNIQUE
 );
 
+-- taille de pizza possible
+CREATE TABLE tailles(
+    id  INT AUTO_INCREMENT  PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    prix DECIMAL(10,2) NOT NULL
+);
+
 -- type de croutes de pizza possible 
 CREATE TABLE croutes (
     id  INT AUTO_INCREMENT  PRIMARY KEY,
-    nom VARCHAR(50) NOT NULL UNIQUE
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    prix DECIMAL(10,2) NOT NULL
 );
 
 -- type de sauces de pizza possible 
 CREATE TABLE sauces (
     id  INT AUTO_INCREMENT  PRIMARY KEY,
-    nom VARCHAR(50) NOT NULL UNIQUE
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    prix DECIMAL(10,2) NOT NULL
 );
 
 -- type de garnitures de pizza possible 
 CREATE TABLE garnitures (
     id  INT AUTO_INCREMENT  PRIMARY KEY,
-    nom VARCHAR(50) NOT NULL UNIQUE
+    nom VARCHAR(50) NOT NULL UNIQUE,
+    prix DECIMAL(10,2) NOT NULL
 );
 
 -- type d'une commande: [envoye a la pizzaria, en cours de préparation, prêt a être livré, en cours de livraison, proche de vous, commande livré]
 CREATE TABLE statuts (
     id  INT AUTO_INCREMENT  PRIMARY KEY,
     nom VARCHAR(50) NOT NULL UNIQUE
-);
-
--- Les differentes taxes pouvant être appliquées sur une commande de pizza
-CREATE TABLE taxes (
-    id  INT AUTO_INCREMENT  PRIMARY KEY,
-    nom VARCHAR(50) NOT NULL UNIQUE,
-    taux DECIMAL(10,2) NOT NULL,
-    CONSTRAINT check_taux_positif CHECK (taux>=0 AND taux<=1)
 );
 
 -- ============================================
@@ -141,7 +143,6 @@ CREATE TABLE adresses(
     ville VARCHAR(50) NOT NULL,
     rue VARCHAR(50) NOT NULL,
     code_postal CHAR(7) NOT NULL,
-    instructions TEXT,
     client_id INT NOT NULL,
 
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
@@ -166,6 +167,8 @@ CREATE TABLE commandes (
     client_id INT NOT NULL,
     livreur_id INT, -- au moment de la commande on a pas de livreur associé
     adresse_id  INT NOT NULL,
+    instructions TEXT,
+    nombre_pizza INT,
 
     FOREIGN KEY (statut_id) REFERENCES statuts(id),
     FOREIGN KEY (client_id) REFERENCES clients(id),
@@ -173,17 +176,6 @@ CREATE TABLE commandes (
     FOREIGN KEY (adresse_id) REFERENCES adresses(id)
 );
 
-
--- taxes s'appliquant sur une commande
-CREATE TABLE commandes_taxes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    taxe_id INT NOT NULL,
-    commande_id INT NOT NULL,
-
-    FOREIGN KEY (taxe_id) REFERENCES taxes(id),
-    FOREIGN KEY (commande_id) REFERENCES commandes(id),
-    UNIQUE(taxe_id, commande_id)
-);
 
 -- Liste des commandes en attente (uniquement les nouvelles commandes)
 CREATE TABLE commandes_en_attente (
@@ -204,11 +196,12 @@ CREATE TABLE commandes_en_attente (
 CREATE TABLE pizzas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
-    taille INT NOT NULL,
     sauce_id INT NOT NULL,
     croute_id INT NOT NULL,
     commande_id INT NOT NULL,
+    taille_id INT NOT NULL,
 
+    FOREIGN KEY (taille_id) REFERENCES tailles(id),
     FOREIGN KEY (sauce_id) REFERENCES sauces(id),
     FOREIGN KEY (croute_id) REFERENCES croutes(id),
     FOREIGN KEY (commande_id) REFERENCES commandes(id)
@@ -223,4 +216,5 @@ CREATE TABLE pizzas_garnitures(
     FOREIGN KEY (garniture_id) REFERENCES garnitures(id),
     FOREIGN KEY (pizza_id) REFERENCES pizzas(id)
 );
+
 

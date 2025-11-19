@@ -22,7 +22,7 @@
             <a href="{{ url_for('pizza.creerPizza')}}" class="bouton">Commander</a>
             <a href="{{ url_for('pizza.historique') }}" class="bouton">Historique</a>
         {% elif session.get('role') == "livreur" %}
-            <a href="#" class="bouton">Livraisons</a>
+            <a href="{{ url_for('livreur.livraisons') }}" class="bouton">Livraisons</a>
         {% elif session.get('role') == "admin" %}
             <a href="#" class="bouton">Admin</a>
         {% endif %}

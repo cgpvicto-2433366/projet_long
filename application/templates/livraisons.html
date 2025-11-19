@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil Piz-la pizza{% endblock %}
+
+{% block css_js %}<link rel="stylesheet" href="{{ url_for('static', filename='css/livraison.css') }}">{% endblock %}
+
+{% block entete %}   
+    <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Piz-la pizza">
+    <div id="logo-salutation">  
+        <span id="nom-pizzaria">Piz-la pizza</span>
+        {% if session.get('utilisateurId') %}
+            <span id="salutation">Bonjour {{ session.get('prenom') }}!</span>
+        {% else %}
+            <span id="salutation">Bienvenue!</span>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block nav_buttons %}
+    {% if session.get('utilisateurId') %}
+        {% if session.get('role') == "client" %}
+            <a href="{{ url_for('pizza.creerPizza')}}" class="bouton">Commander</a>
+            <a href="{{ url_for('pizza.historique') }}" class="bouton">Historique</a>
+        {% elif session.get('role') == "livreur" %}
+            <a href="{{ url_for('livreur.livraisons') }}" class="bouton">Livraisons</a>
+        {% elif session.get('role') == "admin" %}
+            <a href="#" class="bouton">Admin</a>
+        {% endif %}
+        <a href="{{ url_for('auth.deconnexion')}}" class="bouton">Déconnexion</a>
+    {% else %}
+        <a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
+        <a href="{{ url_for('auth.connexion')}}" class="bouton">Connexion</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<section id="livraisons-container">
+    
+    <!-- STATISTIQUES -->
+    <div class="statistiques">
+        <div class="carte-stat stat-attente">
+            <div class="icone-stat">📦</div>
+            <div class="info-stat">
+                <div class="nombre-stat">{{ stats.en_attente }}</div>
+                <div class="label-stat">En attente</div>
+            </div>
+        </div>
+        
+        <div class="carte-stat stat-livrees">
+            <div class="icone-stat">✅</div>
+            <div class="info-stat">
+                <div class="nombre-stat">{{ stats.livrees }}</div>
+                <div class="label-stat">Livrées par moi</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- COMMANDES EN ATTENTE -->
+    {% if commandes and commandes|length > 0 %}
+        <div class="liste-commandes">
+            {% for commande in commandes %}
+            <div class="carte-livraison">
+                <!-- En-tête -->
+                <div class="livraison-entete">
+                    <h3>Commande #{{ commande.commande_id }}</h3>
+                    <span class="badge-pizzas">{{ commande.nombre_pizza }} pizza(s)</span>
+                </div>
+                
+                <!-- Adresse de livraison -->
+                <div class="livraison-adresse">
+                    <div class="icone-adresse">📍</div>
+                    <div class="details-adresse">
+                        <div class="adresse-principale">
+                            {{ commande.numero_civique }} {{ commande.rue }}
+                        </div>
+                        <div class="adresse-secondaire">
+                            {{ commande.ville }}, {{ commande.code_postal }}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Instructions -->
+                {% if commande.instructions %}
+                <div class="livraison-instructions">
+                    <span class="icone-instructions">💬</span>
+                    <span>{{ commande.instructions }}</span>
+                </div>
+                {% endif %}
+                
+                <!-- Liste des pizzas -->
+                <div class="livraison-pizzas">
+                    <h4>Détails des pizzas:</h4>
+                    
+                    {% for pizza in commande.pizzas %}
+                    <div class="pizza-item">
+                        <div class="pizza-numero">🍕 Pizza {{ loop.index }}</div>
+                        <div class="pizza-composition">
+                            <span class="composition-item">
+                                <strong>Taille:</strong> {{ pizza.taille }}
+                            </span>
+                            <span class="composition-item">
+                                <strong>Croûte:</strong> {{ pizza.croute }}
+                            </span>
+                            <span class="composition-item">
+                                <strong>Sauce:</strong> {{ pizza.sauce }}
+                            </span>
+                            {% if pizza.garnitures|length > 0 %}
+                            <span class="composition-item">
+                                <strong>Garnitures:</strong>
+                                {% for garniture in pizza.garnitures %}
+                                    {{ garniture.nom }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
+                            {% else %}
+                            <span class="composition-item composition-vide">
+                                <strong>Garnitures:</strong> Aucune
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Bouton livrer -->
+                <form method="POST" action="{{ url_for('livreur.livrer_commande', commande_id=commande.commande_id) }}" 
+                      onsubmit="return confirm('Confirmer la livraison de la commande #{{ commande.commande_id }}?')">
+                    <button type="submit" class="bouton bouton-livrer">
+                        ✅ Marquer comme livrée
+                    </button>
+                </form>
+
+                <!-- Bouton recuperer -->
+                <form method="POST" action="{{ url_for('livreur.recuperer_commande', commande_id=commande.commande_id) }}" 
+                      onsubmit="return confirm('Confirmer la récupération de la commande #{{ commande.commande_id }}?')">
+                    <button type="submit" class="bouton bouton-livrer">
+                        ✅ Marquer comme récupéré
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="message-vide">
+            <div class="icone-vide">🎉</div>
+            <h2>Aucune livraison en attente</h2>
+            <p>Toutes les commandes ont été livrées!</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

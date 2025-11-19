@@ -3,6 +3,7 @@ from config import Config
 from application.routes.auth import bp as auth_bp
 from application.routes.pizza import bp as pizza_bp
 from application.routes.commande import bp as commande_bp
+from application.routes.livreur import bp as livreur_bp
 
 ## Précise l'endroit des dossiers de templates et static
 app = Flask(__name__, 
@@ -21,6 +22,7 @@ production = False
 app.register_blueprint(auth_bp)
 app.register_blueprint(pizza_bp)
 app.register_blueprint(commande_bp)
+app.register_blueprint(livreur_bp)
 
 #Page d'accueil
 @app.route('/')

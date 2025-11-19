@@ -26,6 +26,7 @@ def connexion():
             session['nom'] = userInfo['nom']
             session['prenom'] = userInfo['prenom']
             flash('Connection réussie', 'success') 
+            
             return redirect(url_for('accueil')) 
         else:
             flash('Identifiants incorrects', 'error') 

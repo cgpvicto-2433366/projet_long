@@ -1,0 +1,268 @@
+/* ============================================
+   PAGE LIVRAISONS
+   Source: Claude AI (Anthropic)
+   ============================================ */
+
+#livraisons-container {
+    max-width: 1200px;
+    margin: 6rem auto 2rem;
+    padding: 0 2rem;
+}
+
+/* STATISTIQUES */
+.statistiques {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.carte-stat {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+}
+
+.carte-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-attente {
+    border-left: 4px solid #ff6b35;
+}
+
+.stat-livrees {
+    border-left: 4px solid #10b981;
+}
+
+.icone-stat {
+    font-size: 3rem;
+}
+
+.nombre-stat {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+}
+
+.label-stat {
+    font-size: 1rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* LISTE DES COMMANDES */
+.liste-commandes {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* CARTE LIVRAISON */
+.carte-livraison {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.carte-livraison:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+}
+
+/* EN-TÊTE */
+.livraison-entete {
+    background: linear-gradient(135deg, #fff5f0 0%, #ffe8dc 100%);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #ff6b35;
+}
+
+.livraison-entete h3 {
+    margin: 0;
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.badge-pizzas {
+    background: #ff6b35;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* ADRESSE */
+.livraison-adresse {
+    padding: 1.5rem 2rem;
+    background: #f0fdf4;
+    display: flex;
+    gap: 1rem;
+    border-left: 4px solid #10b981;
+}
+
+.icone-adresse {
+    font-size: 2rem;
+}
+
+.adresse-principale {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.25rem;
+}
+
+.adresse-secondaire {
+    font-size: 0.95rem;
+    color: #6b7280;
+}
+
+/* INSTRUCTIONS */
+.livraison-instructions {
+    padding: 1rem 2rem;
+    background: #fffbeb;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-left: 4px solid #f59e0b;
+    font-size: 0.95rem;
+    color: #78350f;
+}
+
+.icone-instructions {
+    font-size: 1.3rem;
+}
+
+/* PIZZAS */
+.livraison-pizzas {
+    padding: 1.5rem 2rem;
+}
+
+.livraison-pizzas h4 {
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.pizza-item {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border: 2px solid #e5e7eb;
+}
+
+.pizza-item:last-child {
+    margin-bottom: 0;
+}
+
+.pizza-numero {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ff6b35;
+    margin-bottom: 0.75rem;
+}
+
+.pizza-composition {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.composition-item {
+    font-size: 0.95rem;
+    color: #374151;
+}
+
+.composition-item strong {
+    color: #1a1a1a;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 90px;
+}
+
+.composition-vide {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* BOUTON LIVRER */
+.bouton-livrer {
+    width: 100%;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 0 0 16px 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.bouton-livrer:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: scale(1.02);
+}
+
+/* MESSAGE VIDE */
+.message-vide {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.icone-vide {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.message-vide h2 {
+    margin: 0 0 0.5rem 0;
+    color: #1a1a1a;
+    font-size: 2rem;
+}
+
+.message-vide p {
+    color: #6b7280;
+    font-size: 1.1rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    #livraisons-container {
+        padding: 0 1rem;
+        margin-top: 2rem;
+    }
+    
+    .statistiques {
+        grid-template-columns: 1fr;
+    }
+    
+    .livraison-entete {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+    
+    .composition-item strong {
+        min-width: auto;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+}

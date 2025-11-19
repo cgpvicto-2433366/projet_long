@@ -87,7 +87,6 @@ CREATE TABLE clients (
     id  INT AUTO_INCREMENT  PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
-    points_fidelite INT DEFAULT 0,
     utilisateur_id INT NOT NULL,
 
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE -- si l'utilisateur est supprimé, alors on le supprime de la table client dans le cas où il s'agissait d'un client
@@ -98,7 +97,7 @@ CREATE TABLE livreurs (
     id  INT AUTO_INCREMENT  PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
-    note DECIMAL(10,2) NOT NULL DEFAULT 0,
+    nombre_livraison INT,
     utilisateur_id INT NOT NULL,
 
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE -- si l'utilisateur est supprimé, alors on le supprime de la table livreurs dans le cas où il s'agissait d'un livreur

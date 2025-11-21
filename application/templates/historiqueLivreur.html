@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil Piz-la pizza{% endblock %}
+
+{% block css_js %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/historiqueLivreur.css') }}">
+{% endblock %}
+
+{% block entete %}   
+    <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Piz-la pizza">
+    <div id="logo-salutation">  
+        <span id="nom-pizzaria">Piz-la pizza</span>
+        {% if session.get('utilisateurId') %}
+            <span id="salutation">Bonjour {{ session.get('prenom') }}!</span>
+        {% else %}
+            <span id="salutation">Bienvenue!</span>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block nav_buttons %}
+    {% if session.get('utilisateurId') %}
+        {% if session.get('role') == "client" %}
+            <a href="{{ url_for('pizza.creerPizza')}}" class="bouton">Commander</a>
+        {% elif session.get('role') == "livreur" %}
+            <a href="#" class="bouton">Livraisons</a>
+            <a href="{{ url_for('livreur.historiqueLivreur')}}" class="bouton">Historique</a>
+        {% elif session.get('role') == "admin" %}
+            <a href="#" class="bouton">Admin</a>
+        {% endif %}
+        <a href="{{ url_for('pizza.creerPizza')}}" class="bouton">Retour</a>
+    {% else %}
+        <a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
+        <a href="{{ url_for('auth.connexion')}}" class="bouton">Connexion</a>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+<section id="historique-livreur-container">
+    
+     <!-- Cette section de code, je l'ai retravaillé avec Claude IA, afin d'avoir des bons noms de classe, utile pour le  css-->
+
+    {% if livraisons and livraisons|length > 0 %}
+        <!-- STATISTIQUE RAPIDE -->
+        <div class="stat-total">
+            <div class="stat-nombre">{{ livraisons|length }}</div>
+            <div class="stat-label">Livraisons effectuées</div>
+        </div>
+        
+        <!-- LISTE DES LIVRAISONS -->
+        <div class="liste-livraisons">
+            {% for livraison in livraisons %}
+            <div class="carte-livraison-historique">
+                <!-- En-tête -->
+                <div class="historique-entete">
+                    <h3>Commande #{{ livraison.commande_id }}</h3>
+                    <span class="badge-pizzas">{{ livraison.nombre_pizza }} pizza(s)</span>
+                </div>
+                
+                <!-- Adresse -->
+                <div class="historique-adresse">
+                    <div class="label-info"> Adresse</div>
+                    <div class="valeur-info">
+                        {{ livraison.rue }}<br>
+                        {{ livraison.ville }}, {{ livraison.code_postal }}
+                    </div>
+                </div>
+                
+                <!-- Dates -->
+                <div class="historique-dates">
+                    <div class="date-item">
+                        <div class="label-date">Récupérée le</div>
+                        <div class="valeur-date">
+                            {{ livraison.date_commande.strftime('%d/%m/%Y à %H:%M') }}
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="date-item">
+                        <div class="label-date">Livrée le</div>
+                        <div class="valeur-date valeur-livraison">
+                            {{ livraison.date_livraison.strftime('%d/%m/%Y à %H:%M') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- MESSAGE VIDE -->
+        <div class="message-vide">
+            <h2>Aucune livraison</h2>
+            <p>Vous n'avez pas encore effectué de livraison.</p>
+            <a href="{{ url_for('livreur.livraisons') }}" class="bouton bouton-primary">
+                Voir les livraisons disponibles
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

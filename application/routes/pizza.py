@@ -110,8 +110,6 @@ def viderPanier():
 #historique de commande
 @bp.route('/historique')
 def historique():
-
-    
     # Vérifier connexion
     if session.get('utilisateurId') is None:
         flash('Veuillez vous connecter', 'warning')

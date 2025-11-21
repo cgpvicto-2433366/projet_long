@@ -1,6 +1,6 @@
 /* ============================================
    PAGE LIVRAISONS
-   Source: Claude AI (Anthropic)
+   Source: Claude AI (Anthropic) + Ben
    ============================================ */
 
 #livraisons-container {
@@ -9,10 +9,24 @@
     padding: 0 2rem;
 }
 
+/* SECTIONS DE COMMANDES */
+.section-commandes {
+    margin-bottom: 3rem;
+}
+
+.titre-section {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid #e5e7eb;
+}
+
 /* STATISTIQUES */
 .statistiques {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-bottom: 2rem;
 }
@@ -34,15 +48,15 @@
 }
 
 .stat-attente {
+    border-left: 4px solid #f59e0b;
+}
+
+.stat-recuperees {
     border-left: 4px solid #ff6b35;
 }
 
 .stat-livrees {
     border-left: 4px solid #10b981;
-}
-
-.icone-stat {
-    font-size: 3rem;
 }
 
 .nombre-stat {
@@ -64,7 +78,7 @@
     gap: 1.5rem;
 }
 
-/* CARTE LIVRAISON */
+/* CARTES DE LIVRAISON */
 .carte-livraison {
     background: white;
     border-radius: 16px;
@@ -78,14 +92,40 @@
     transform: translateY(-4px);
 }
 
-/* EN-TÊTE */
+/* Distinction visuelle - Cartes PRÊTES */
+.carte-prete {
+    border-left: 6px solid #f59e0b;
+}
+
+.entete-prete {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-bottom: 3px solid #f59e0b;
+}
+
+.badge-prete {
+    background: #f59e0b;
+}
+
+/* Distinction visuelle - Cartes EN LIVRAISON */
+.carte-en-livraison {
+    border-left: 6px solid #10b981;
+}
+
+.entete-en-livraison {
+    background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+    border-bottom: 3px solid #10b981;
+}
+
+.badge-en-livraison {
+    background: #10b981;
+}
+
+/* EN-TÊTE DES COMMANDES */
 .livraison-entete {
-    background: linear-gradient(135deg, #fff5f0 0%, #ffe8dc 100%);
     padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 3px solid #ff6b35;
 }
 
 .livraison-entete h3 {
@@ -96,7 +136,6 @@
 }
 
 .badge-pizzas {
-    background: #ff6b35;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -104,7 +143,7 @@
     font-weight: 600;
 }
 
-/* ADRESSE */
+/* ADRESSE DE LIVRAISON */
 .livraison-adresse {
     padding: 1.5rem 2rem;
     background: #f0fdf4;
@@ -145,7 +184,7 @@
     font-size: 1.3rem;
 }
 
-/* PIZZAS */
+/* DÉTAILS DES PIZZAS */
 .livraison-pizzas {
     padding: 1.5rem 2rem;
 }
@@ -199,23 +238,41 @@
     font-style: italic;
 }
 
-/* BOUTON LIVRER */
-.bouton-livrer {
+/* ACTIONS (BOUTONS) */
+.actions-commande {
+    padding: 1.5rem 2rem;
+    background: #f9fafb;
+}
+
+.btn-full {
     width: 100%;
     padding: 1.25rem;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
     border: none;
-    border-radius: 0 0 16px 16px;
+    border-radius: 10px;
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s;
 }
 
+.bouton-recuperer {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.bouton-recuperer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.bouton-livrer {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
 .bouton-livrer:hover {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
-    transform: scale(1.02);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 /* MESSAGE VIDE */
@@ -225,11 +282,6 @@
     background: white;
     border-radius: 16px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
-.icone-vide {
-    font-size: 5rem;
-    margin-bottom: 1rem;
 }
 
 .message-vide h2 {

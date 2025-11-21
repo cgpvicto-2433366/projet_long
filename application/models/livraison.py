@@ -1,9 +1,3 @@
-"""
-Fichier: livraison.py
-Description: Fonctions pour la gestion des livraisons
-Auteur: [Ton nom]
-Date: [Date]
-"""
 
 from application.database import ExecuteQuery
 def recuperer_commandes_livreur(livreur_id=None):
@@ -131,7 +125,7 @@ def marquer_commande_livree(commande_id, livreur_id):
     # Mettre à jour le statut et enregistrer le livreur
     query = """
         UPDATE commandes 
-        SET statut_id = (SELECT id FROM statuts WHERE nom = 'Livree'),
+        SET statut_id = (SELECT id FROM statuts WHERE nom = 'livree'),
             date_livraison = NOW(),
             livreur_id = %s
         WHERE id = %s

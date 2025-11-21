@@ -29,6 +29,7 @@
         {% endif %}
         <a href="{{ url_for('auth.deconnexion')}}" class="bouton">Déconnexion</a>
     {% else %}
+        <a href="{{ url_for('pizza.creerPizza') }}" class="bouton bouton-primary">Commander</a>
         <a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
         <a href="{{ url_for('auth.connexion')}}" class="bouton">Connexion</a>
     {% endif %}

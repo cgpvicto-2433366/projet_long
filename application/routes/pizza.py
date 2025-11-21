@@ -14,16 +14,7 @@ bp = Blueprint('pizza', __name__)
 
 @bp.route('/creerPizza', methods=['GET', 'POST'])
 def creerPizza():
-    # Vérifier connexion
-    if session.get('utilisateurId') is None:
-        flash('Veuillez vous connecter pour commander', 'warning')
-        return redirect(url_for('auth.connexion'))
-    
-    # Vérifier rôle
-    if session.get('role') != 'client':
-        flash('Seuls les clients peuvent commander', 'error')
-        return redirect(url_for('accueil'))
-    
+
     form = Commander()
 
     # Charger choix depuis BD
@@ -32,7 +23,14 @@ def creerPizza():
     form.croute.choices = recuperer_croutes_pizza()
     form.garnitures.choices = recuperer_garnitures_pizza()
     
-    adresses_client= recuperer_adresses_clients(session.get('roleId'))
+    # es ce un invité ou un utilisateur qui possède un compte
+    est_connecte = session.get('utilisateurId') is not None
+
+    if est_connecte and session.get('role') == 'client':
+        adresses_client= recuperer_adresses_clients(session.get('roleId'))
+    else:
+        adresses_client = []
+
 
     if form.validate_on_submit():
         taille_id = form.taille.data
@@ -44,7 +42,7 @@ def creerPizza():
         if len(garnitures_ids) > 4:
             flash('Maximum 4 garnitures par pizza', 'error')
             panier= session.get('panier', [])
-            return render_template('commander.html', form=form, panier=panier)
+            return render_template('commander.html', form=form, panier=panier, adresses=adresses_client,est_connecte= est_connecte)
         
         prix_total = 0
         prix_total += recuperer_prix('tailles', taille_id)
@@ -74,7 +72,7 @@ def creerPizza():
 
     panier = session.get('panier', [])
 
-    return render_template('commander.html', form=form, panier=panier, adresses=adresses_client)
+    return render_template('commander.html', form=form, panier=panier, adresses=adresses_client, est_connecte= est_connecte)
 
 
 

@@ -61,7 +61,7 @@ def ExecuteQuery(query, params=None, unResultat=False, plusieursResultats=False)
         
     except Error as e:
         connection.rollback()
-        raise Exception(f"Erreur SQL: {e}")
+        raise Exception(f"Erreur lors de l'interrogation de la base de donnée")
         
     finally:
         cursor.close()

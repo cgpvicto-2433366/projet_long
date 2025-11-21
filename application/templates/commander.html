@@ -74,55 +74,91 @@
            <!-- SECTION 2: ADRESSE DE LIVRAISON -->
             <div class="modal-section">
                 <h3>Adresse de livraison</h3>
-                
-                {% if adresses and adresses|length > 0 %}
-                    <div class="liste-adresses">
-                        {% for adresse in adresses %}
-                            <label class="carte-adresse">
-                                <input type="radio" name="adresse_id" value="{{ adresse.id }}" 
-                                    {% if loop.first %}required{% endif %}>
-                                <div class="contenu-adresse">
-                                    <div class="adresse-principale">
-                                        {{ adresse.rue }}
+                {% if est_connecte %}
+                    {% if adresses and adresses|length > 0 %}
+                        <div class="liste-adresses">
+                            {% for adresse in adresses %}
+                                <label class="carte-adresse">
+                                    <input type="radio" name="adresse_id" value="{{ adresse.id }}" 
+                                        {% if loop.first %}required{% endif %}>
+                                    <div class="contenu-adresse">
+                                        <div class="adresse-principale">
+                                            {{ adresse.rue }}
+                                        </div>
+                                        <div class="adresse-details">
+                                            {{ adresse.ville }}, QC {{ adresse.code_postal }}
+                                        </div>
                                     </div>
-                                    <div class="adresse-details">
-                                        {{ adresse.ville }}, QC {{ adresse.code_postal }}
-                                    </div>
-                                </div>
-                                <div class="check-adresse">✓</div>
-                            </label>
-                        {% endfor %}
+                                    <div class="check-adresse">✓</div>
+                                </label>
+                             {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="message-info">Vous n'avez pas encore d'adresse enregistrée.</p>
+                    {% endif %}              
+                   
+                    <!-- Bouton pour nouvelle adresse -->
+                    <button type="button" class="btn-ajouter-adresse" onclick="afficherNouvelleAdresse()">
+                        + Ajouter une nouvelle adresse
+                    </button>
+
+                    <!-- SECTION 3: NOUVELLE ADRESSE (cachée par défaut) -->
+                    <div id="nouvelle-adresse" class="modal-section" style="display: none;">
+                        <h3>Nouvelle adresse</h3>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Rue *</label>
+                            <input type="text" name="rue" class="champ-saisie" placeholder="Rue Principale">
+                        </div>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Ville *</label>
+                            <input type="text" name="ville" class="champ-saisie" placeholder="Victoriaville">
+                        </div>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Code postal *</label>
+                            <input type="text" name="code_postal" class="champ-saisie" placeholder="G6P 1A1" maxlength="7">
+                        </div>
                     </div>
+                
                 {% else %}
-                    <p class="message-info">Vous n'avez pas encore d'adresse enregistrée.</p>
+                    <!-- UTILISATEUR NON CONNECTÉ: Formulaire complet obligatoire -->
+                    <div class="formulaire-invite">
+                        <p class="info-invite">Veuillez remplir vos informations pour la livraison</p>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Nom *</label>
+                            <input type="text" name="nom_invite" class="champ-saisie" required>
+                        </div>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Prénom *</label>
+                            <input type="text" name="prenom_invite" class="champ-saisie" required>
+                        </div>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Téléphone *</label>
+                            <input type="tel" name="telephone_invite" class="champ-saisie" placeholder="819-555-1234" required>
+                        </div>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Rue *</label>
+                            <input type="text" name="rue_invite" class="champ-saisie" placeholder="123 Rue Principale" required>
+                        </div>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Ville *</label>
+                            <input type="text" name="ville_invite" class="champ-saisie" placeholder="Victoriaville" required>
+                        </div>
+                        
+                        <div class="groupe-champ">
+                            <label class="etiquette-champ">Code postal *</label>
+                            <input type="text" name="code_postal_invite" class="champ-saisie" placeholder="G6P 1A1" maxlength="7" required>
+                        </div>
+                    </div>
                 {% endif %}
-                
-                <!-- Bouton pour nouvelle adresse -->
-                <button type="button" class="btn-ajouter-adresse" onclick="afficherNouvelleAdresse()">
-                    + Ajouter une nouvelle adresse
-                </button>
-            </div>
-            
-            <!-- SECTION 3: NOUVELLE ADRESSE (cachée par défaut) -->
-            <div id="nouvelle-adresse" class="modal-section" style="display: none;">
-                <h3>Nouvelle adresse</h3>
-                
-                <div class="groupe-champ">
-                    <label class="etiquette-champ">Rue *</label>
-                    <input type="text" name="rue" class="champ-saisie" placeholder="Rue Principale">
-                </div>
-                
-                <div class="groupe-champ">
-                    <label class="etiquette-champ">Ville *</label>
-                    <input type="text" name="ville" class="champ-saisie" placeholder="Victoriaville">
-                </div>
-                
-                <div class="groupe-champ">
-                    <label class="etiquette-champ">Code postal *</label>
-                    <input type="text" name="code_postal" class="champ-saisie" placeholder="G6P 1A1" maxlength="7">
-                </div>
-            </div>
-            
+                        
             <!-- SECTION 4: INSTRUCTIONS -->
             <div class="modal-section">
                 <h3>Instructions de livraison (optionnel)</h3>

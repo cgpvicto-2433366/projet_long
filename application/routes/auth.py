@@ -52,6 +52,11 @@ def inscription():
     if form.validate_on_submit():
 
         try:
+
+
+
+
+            
             resultat=CreerUtilisateur(
                 nomUtilisateur=form.nom_utilisateur.data,
                 password=form.password.data,

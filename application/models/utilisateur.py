@@ -107,8 +107,4 @@ def Connexion(courriel, password, typeCompte):
                 'prenom': "Gestionnaire"
             }
 
-
-
-
-
     return None  # Type de compte incorrect pour cet utilisateur

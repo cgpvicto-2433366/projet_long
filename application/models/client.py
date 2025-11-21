@@ -42,3 +42,48 @@ def creer_nouvelle_adresse(idClient, rue , ville , codePostal):
         adresseId = ExecuteQuery(queryAdresse, param)
         
     return adresseId
+
+
+
+def creer_client_invite(nom, prenom, telephone, rue, ville, code_postal):
+    """
+    Créer un client invité (sans compte utilisateur)
+    
+    Paramètres:
+        nom, prenom, telephone, rue, ville, code_postal
+        
+    Retourne:
+        dict avec client_id et adresse_id
+    """
+    
+    # 1. Créer un utilisateur temporaire
+    nom_utilisateur_temp = f"invite_{telephone}"
+    courriel_temp = f"{nom_utilisateur_temp}@invite.local"
+    
+    query_user = """
+        INSERT INTO utilisateurs (nom_utilisateur, mot_de_passe, telephone, courriel)
+        VALUES (%s, %s, %s, %s)
+    """
+    utilisateur_id = ExecuteQuery(
+        query_user, 
+        (nom_utilisateur_temp, '', telephone, courriel_temp)
+    )
+    
+    # 2. Créer le client invité
+    query_client = """
+        INSERT INTO clients (utilisateur_id, nom, prenom, est_invite)
+        VALUES (%s, %s, %s, TRUE)
+    """
+    client_id = ExecuteQuery(query_client, (utilisateur_id, nom, prenom))
+    
+    # 3. Créer l'adresse
+    query_adresse = """
+        INSERT INTO adresses (client_id, rue, ville, code_postal)
+        VALUES (%s, %s, %s, %s)
+    """
+    adresse_id = ExecuteQuery(query_adresse, (client_id, rue, ville, code_postal))
+    
+    return {
+        'client_id': client_id,
+        'adresse_id': adresse_id
+    }

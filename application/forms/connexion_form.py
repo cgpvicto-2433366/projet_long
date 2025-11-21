@@ -20,7 +20,8 @@ class ConnexionForm(FlaskForm):
         choices=[
             ('', '-- Choisir --'),
             ('client', 'Client (commander des pizzas)'),
-            ('livreur', 'Livreur (livrer des commandes)')
+            ('livreur', 'Livreur (livrer des commandes)'),
+            ('administrateur', 'Gestionnaire de la pizzaria')
         ],
         validators=[DataRequired(message='Choisissez un type de compte')]
     )

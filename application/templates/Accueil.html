@@ -25,7 +25,7 @@
             <a href="{{ url_for('livreur.livraisons') }}" class="bouton">Livraisons</a>
             <a href="{{ url_for('livreur.historiqueLivreur') }}" class="bouton">Historique</a>
         {% elif session.get('role') == "admin" %}
-            <a href="#" class="bouton">Admin</a>
+            <a href="{{ url_for('admin.commandesAdmin') }}" class="bouton">Admin</a>
         {% endif %}
         <a href="{{ url_for('auth.deconnexion')}}" class="bouton">Déconnexion</a>
     {% else %}

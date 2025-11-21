@@ -1,0 +1,341 @@
+/* ============================================
+   PAGE ADMINISTRATION
+   Source: Claude AI (Anthropic) + Ben
+   ============================================ */
+
+#admin-container {
+    max-width: 1400px;
+    margin: 6rem auto 2rem;
+    padding: 0 2rem;
+}
+
+/* STATISTIQUES */
+.statistiques {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.carte-stat {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+}
+
+.carte-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-nouvelles {
+    border-left: 4px solid #3b82f6;
+}
+
+.stat-en-cours {
+    border-left: 4px solid #f59e0b;
+}
+
+.stat-livrees {
+    border-left: 4px solid #10b981;
+}
+
+.nombre-stat {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+}
+
+.label-stat {
+    font-size: 1rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* FILTRES */
+.filtres {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.bouton-filtre {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    color: #6b7280;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.bouton-filtre:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+}
+
+.bouton-filtre.actif {
+    background: #ff6b35;
+    border-color: #ff6b35;
+    color: white;
+}
+
+/* LISTE COMMANDES */
+.liste-commandes {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* CARTE COMMANDE */
+.carte-commande-admin {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-left: 6px solid #3b82f6;
+}
+
+/* EN-TÊTE */
+.commande-entete {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #3b82f6;
+}
+
+.info-gauche {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.commande-entete h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.badge-statut {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+}
+
+.badge-nouvelle {
+    background: #3b82f6;
+}
+
+.badge-en_preparation {
+    background: #f59e0b;
+}
+
+.badge-prete {
+    background: #f59e0b;
+}
+
+.badge-en_livraison {
+    background: #8b5cf6;
+}
+
+.badge-livree {
+    background: #10b981;
+}
+
+.prix-commande {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ff6b35;
+}
+
+/* INFOS CLIENT/LIVREUR */
+.commande-infos {
+    padding: 1.5rem 2rem;
+    background: #f9fafb;
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.info-block {
+    flex: 1;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.info-valeur {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* DATES */
+.commande-dates {
+    padding: 1rem 2rem;
+    background: #fffbeb;
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.date-item {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.date-label {
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.date-valeur {
+    color: #1a1a1a;
+}
+
+/* PIZZAS */
+.commande-pizzas {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.commande-pizzas h4 {
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.pizza-detail {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+}
+
+.pizza-detail:last-child {
+    margin-bottom: 0;
+}
+
+.pizza-titre {
+    font-weight: 700;
+    color: #ff6b35;
+    margin-bottom: 0.5rem;
+}
+
+.pizza-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.95rem;
+    color: #374151;
+}
+
+/* ACTIONS */
+.commande-actions {
+    padding: 1.5rem 2rem;
+    background: #f9fafb;
+}
+
+.commande-actions form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.commande-actions label {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.select-statut {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+}
+
+.bouton-modifier {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.bouton-modifier:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* MESSAGE VIDE */
+.message-vide {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.message-vide h2 {
+    margin: 0 0 0.5rem 0;
+    color: #1a1a1a;
+    font-size: 2rem;
+}
+
+.message-vide p {
+    color: #6b7280;
+    font-size: 1.1rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    #admin-container {
+        padding: 0 1rem;
+        margin-top: 2rem;
+    }
+    
+    .statistiques {
+        grid-template-columns: 1fr;
+    }
+    
+    .filtres {
+        flex-direction: column;
+    }
+    
+    .commande-entete {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .commande-infos {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .commande-actions form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

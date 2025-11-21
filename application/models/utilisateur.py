@@ -74,7 +74,8 @@ def Connexion(courriel, password, typeCompte):
                 'roleId': client['id'],
                 'role': 'client',
                 'nom': client['nom'],
-                'prenom': client['prenom']
+                'prenom': client['prenom'],
+                'admin': user['est_admin']
             }
         else:
             return None
@@ -94,5 +95,20 @@ def Connexion(courriel, password, typeCompte):
             }
         else:
             return None
-    
+        
+    elif typeCompte == 'administrateur':
+            
+            return {
+                'utilisateurId': user['id'],
+                'nomUtilisateur': user['nom_utilisateur'],
+                'role': 'admin',
+                'roleId': user['id'],
+                'nom': "Administrateur",
+                'prenom': "Gestionnaire"
+            }
+
+
+
+
+
     return None  # Type de compte incorrect pour cet utilisateur

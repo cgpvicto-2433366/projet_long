@@ -1,0 +1,180 @@
+
+{% extends "base.html" %}
+
+{% block title %}Accueil Piz-la pizza{% endblock %}
+
+
+{% block css_js %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block entete %}   
+    <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Piz-la pizza">
+    <div id="logo-salutation">  
+        <span id="nom-pizzaria">Administration</span>
+        <span id="salutation">Gestion des commandes</span>
+    </div>
+{% endblock %}
+
+{% block nav_buttons %}
+        {% if session.get('utilisateurId') %}
+            {% if session.get('role') == "client" %}
+                <a href="{{ url_for('pizza.creerPizza')}}" class="bouton">Commander</a>
+                <a href="{{ url_for('pizza.historique') }}" class="bouton">Historique</a>
+            {% elif session.get('role') == "livreur" %}
+                <a href="{{ url_for('livreur.livraisons') }}" class="bouton">Livraisons</a>
+                <a href="{{ url_for('livreur.historiqueLivreur') }}" class="bouton">Historique</a>
+            {% elif session.get('role') == "admin" %}
+                <a href="{{ url_for('admin.commandesAdmin') }}" class="bouton">Admin</a>
+            {% endif %}
+            <a href="{{ url_for('auth.deconnexion')}}" class="bouton">Déconnexion</a>
+        {% else %}
+            <a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
+            <a href="{{ url_for('auth.connexion')}}" class="bouton">Connexion</a>
+        {% endif %}
+
+{% endblock %}
+
+{% block content %}
+<section id="admin-container">
+    
+    <!-- STATISTIQUES -->
+    <div class="statistiques">
+        <div class="carte-stat stat-nouvelles">
+            <div class="info-stat">
+                <div class="nombre-stat">{{ stats.nouvelles }}</div>
+                <div class="label-stat">Nouvelles</div>
+            </div>
+        </div>
+        
+        <div class="carte-stat stat-en-cours">
+            <div class="info-stat">
+                <div class="nombre-stat">{{ stats.en_cours }}</div>
+                <div class="label-stat">En cours</div>
+            </div>
+        </div>
+        
+        <div class="carte-stat stat-livrees">
+            <div class="info-stat">
+                <div class="nombre-stat">{{ stats.livrees }}</div>
+                <div class="label-stat">Livrées</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FILTRES -->
+    <div class="filtres">
+        <a href="{{ url_for('admin.commandesAdmin', filtre='toutes') }}" 
+           class="bouton-filtre {% if filtre_actif == 'toutes' %}actif{% endif %}">
+            Toutes les commandes
+        </a>
+        <a href="{{ url_for('admin.commandesAdmin', filtre='nouvelles') }}" 
+           class="bouton-filtre {% if filtre_actif == 'nouvelles' %}actif{% endif %}">
+            Nouvelles
+        </a>
+        <a href="{{ url_for('admin.commandesAdmin', filtre='livrees') }}" 
+           class="bouton-filtre {% if filtre_actif == 'livrees' %}actif{% endif %}">
+            Livrées
+        </a>
+    </div>
+    
+    <!-- LISTE DES COMMANDES -->
+    {% if commandes and commandes|length > 0 %}
+        <div class="liste-commandes">
+            {% for commande in commandes %}
+            <div class="carte-commande-admin">
+                <!-- En-tête -->
+                <div class="commande-entete">
+                    <div class="info-gauche">
+                        <h3>Commande #{{ commande.commande_id }}</h3>
+                        <span class="badge-statut badge-{{ commande.statut }}">{{ commande.statut }}</span>
+                    </div>
+                    <div class="info-droite">
+                        <span class="prix-commande">{{ "%.2f"|format(commande.prix) }}$</span>
+                    </div>
+                </div>
+                
+                <!-- Informations client et livreur -->
+                <div class="commande-infos">
+                    <div class="info-block">
+                        <div class="info-label">👤 Client</div>
+                        <div class="info-valeur">{{ commande.client_prenom }} {{ commande.client_nom }}</div>
+                    </div>
+                    
+                    {% if commande.livreur_nom %}
+                    <div class="info-block">
+                        <div class="info-label">🚚 Livreur</div>
+                        <div class="info-valeur">{{ commande.livreur_prenom }} {{ commande.livreur_nom }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="info-block">
+                        <div class="info-label">📍 Adresse</div>
+                        <div class="info-valeur">{{ commande.rue }}, {{ commande.ville }}</div>
+                    </div>
+                </div>
+                
+                <!-- Dates -->
+                <div class="commande-dates">
+                    <div class="date-item">
+                        <span class="date-label">Commandée:</span>
+                        <span class="date-valeur">{{ commande.date_commande.strftime('%d/%m/%Y %H:%M') }}</span>
+                    </div>
+                    
+                    {% if commande.date_livraison %}
+                    <div class="date-item">
+                        <span class="date-label">Livrée:</span>
+                        <span class="date-valeur">{{ commande.date_livraison.strftime('%d/%m/%Y %H:%M') }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Pizzas -->
+                <div class="commande-pizzas">
+                    <h4>{{ commande.nombre_pizza }} pizza(s)</h4>
+                    
+                    {% for pizza in commande.pizzas %}
+                    <div class="pizza-detail">
+                        <div class="pizza-titre">🍕 Pizza {{ loop.index }}</div>
+                        <div class="pizza-infos">
+                            <span><strong>Taille:</strong> {{ pizza.taille }}</span>
+                            <span><strong>Croûte:</strong> {{ pizza.croute }}</span>
+                            <span><strong>Sauce:</strong> {{ pizza.sauce }}</span>
+                            {% if pizza.garnitures|length > 0 %}
+                            <span>
+                                <strong>Garnitures:</strong>
+                                {% for garniture in pizza.garnitures %}
+                                    {{ garniture.nom }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Changement de statut -->
+                <div class="commande-actions">
+                    <form method="POST" action="{{ url_for('admin.changer_statut', commande_id=commande.commande_id, filtre=filtre_actif) }}">
+                        <label for="statut-{{ commande.commande_id }}">Changer le statut:</label>
+                        <select name="statut" id="statut-{{ commande.commande_id }}" class="select-statut">
+                            <option value="nouvelle" {% if commande.statut == 'nouvelle' %}selected{% endif %}>Nouvelle</option>
+                            <option value="en_preparation" {% if commande.statut == 'en_preparation' %}selected{% endif %}>En préparation</option>
+                            <option value="prete" {% if commande.statut == 'prete' %}selected{% endif %}>Prête</option>
+                            <option value="en_livraison" {% if commande.statut == 'en_livraison' %}selected{% endif %}>En livraison</option>
+                            <option value="livree" {% if commande.statut == 'livree' %}selected{% endif %}>Livrée</option>
+                        </select>
+                        <button type="submit" class="bouton bouton-modifier">Modifier</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="message-vide">
+            <h2>Aucune commande</h2>
+            <p>Aucune commande ne correspond aux critères sélectionnés.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

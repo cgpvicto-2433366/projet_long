@@ -28,7 +28,7 @@
         {% elif session.get('role') == "admin" %}
             <a href="#" class="bouton">Admin</a>
         {% endif %}
-        <a href="{{ url_for('pizza.creerPizza')}}" class="bouton">Retour</a>
+        <a href="{{ url_for('livreur.livraisons')}}" class="bouton">Retour</a>
     {% else %}
         <a href="{{ url_for('auth.inscription') }}" class="bouton">Inscription</a>
         <a href="{{ url_for('auth.connexion')}}" class="bouton">Connexion</a>
